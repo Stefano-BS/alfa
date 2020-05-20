@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/laravel/app/Utente.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/FrontController.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/obbiettivi.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/modificaObbiettivo.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/CorpiController.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/DB.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/ProfiloController.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/index.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/auth.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/strumenti.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/modificaCorpo.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/layout/master.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/ObbiettiviController.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/profilo.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/corpi.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/routes/web.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/AuthController.php</file>
+        </group>
+    </open-files>
+</project-private>
