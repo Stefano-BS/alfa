@@ -4,19 +4,20 @@
 
 @section('barraAccesso')
 @if ($logged)
-    <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>{{$loggedName}}</a></li>
+    <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
     <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  Esci</a></li>
 @else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>Accedi</a></li>
+    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  Accedi</a></li>
 @endif
 @endsection
 
 @section('corpo')
+<script>
+    document.getElementById('navCorpi').setAttribute('class', 'active');
+</script>
 <div class="container">
     <header>
-        <h1>
-            Catalogo Corpi
-        </h1>
+        <h1 align="center">Catalogo Corpi</h1>
     </header>
 </div>
 <br>

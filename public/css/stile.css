@@ -7,14 +7,25 @@
 
 .navbar-default {
     background-color: #fcfcfc;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
 }
 
 .navbar-default .navbar-nav > li > a {
     font-size: 14px;
     font-weight: bold;
-    color: #333333;
+    color: #000;
 }
 
-.rating {
-    text-align: center;
+.navbar-default .navbar-nav > li.active > a {
+    color: black;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: #000;
+    background-color: #fff6f0;
+}
+
+.navbar-default .navbar-nav > li.active > a:hover {
+    color: #000;
+    background-color: #efe6e0;
 }

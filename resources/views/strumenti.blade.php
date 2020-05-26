@@ -4,23 +4,26 @@
 
 @section('barraAccesso')
 @if ($logged)
-    <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>{{$loggedName}}</a></li>
+    <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
     <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  Esci</a></li>
 @else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>Accedi</a></li>
+    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  Accedi</a></li>
 @endif
 @endsection
 
 @section('corpo')
+<script>
+    document.getElementById('navStrumenti').setAttribute('class', 'active');
+</script>
 <div class="container">
     <header>
-    <p><h1 class="text-center">
-        Strumenti utili
-    </h1></p>
-</header>
+        <h1 align="center">Strumenti utili</h1>
+    </header>
 </div>
+<br>
 <script>
 DPI = 0;
+erroreFormSensore = false;
 function getDPI() {
     if (DPI>0) return;
     var div = document.createElement("div");
@@ -34,8 +37,12 @@ function getDPI() {
     document.body.removeChild( div );
     DPI = result*1.3;//*window.devicePixelRatio;
 }
-function errore(messaggio) {
-    alert(messaggio);
+
+function errore(messaggio, id) {
+    erroreFormSensore = true;
+    document.getElementById(id).parentNode.setAttribute("class","has-error");
+    document.getElementById("messaggioErrore").innerHTML = messaggio;
+    document.getElementById("messaggioErrore").setAttribute("class","alert alert-danger text-center");
 }
 
 function pFloat(value) {
@@ -65,6 +72,7 @@ function fpdc(){
 }
 
 function fsd(){
+    erroreFormSensore = false;
     var dim = (isNaN(pFloat(document.getElementById("dim").value))? eval(document.getElementById("dim").value) : parseFloat(document.getElementById("dim").value));
     var ratio = (isNaN(pFloat(document.getElementById("ratio").value))? eval(document.getElementById("ratio").value) : parseFloat(document.getElementById("ratio").value));
     var pix = parseFloat(document.getElementById("pix").value);
@@ -81,20 +89,20 @@ function fsd(){
         crop = 43.27/diagonale;
         var dimTemp = diagonale/25.4*Math.PI/2;
         if (isNaN(dim) || dim<=0 || (dimTemp<dim*1.05 && dimTemp>dim*0.95)) dim = dimTemp;
-        else errore("Il valore fornito di dimensione non è compatibile con larghezza ed altezza");
+        else errore("Il valore fornito di dimensione non è compatibile con larghezza ed altezza (valore compatibile: " + arrotonda(dimTemp,2) + ")", "dim");
         var ratioTemp = base/altezza;
         if (isNaN(ratio)|| ratio <= 0 || (ratioTemp<ratio*1.05 && ratioTemp>ratio*0.95)) ratio = ratioTemp;
-        else errore("Il valore fornito di formato non è compatibile con larghezza ed altezza");
+        else errore("Il valore fornito di formato non è compatibile con larghezza ed altezza (valore compatibile: " + arrotonda(ratioTemp,2) + ")","ratio");
         hoCalcolato = true;
     } else if (dim>0 && ratio>0) { //Caso base 2
         diagonale = dim*25.4/Math.PI*2;
         crop = 43.27/diagonale;
         var baseTemp = Math.sqrt(diagonale*diagonale/(1/(ratio*ratio)+1));
         if (isNaN(base) || base<=0 || (baseTemp<base*1.05 && baseTemp>base*0.95)) base = baseTemp;
-        else errore("Il valore fornito di larghezza non è compatibile con dimensione e formato");
+        else errore("Il valore fornito di larghezza non è compatibile con dimensione e formato (valore compatibile: " + arrotonda(baseTemp,2) + ")","base");
         var altezzaTemp = Math.sqrt(diagonale*diagonale/(ratio*ratio+1));
         if (isNaN(altezza) || altezza<=0 || (altezzaTemp<altezza*1.05 && altezzaTemp>altezza*0.95)) altezza = altezzaTemp;
-        else errore("Il valore fornito di altezza non è compatibile con dimensione e formato");
+        else errore("Il valore fornito di altezza non è compatibile con dimensione e formato (valore compatibile: " + arrotonda(altezzaTemp,2) + ")","alte");
         area = base*altezza;
         hoCalcolato = true;
     } else if (base>0 && ratio>0) { //Casi derivati
@@ -117,13 +125,13 @@ function fsd(){
         if (!(mp==="" || isNaN(mp) || mp<=0)) {
             var pixTemp = base/Math.sqrt(mp*1000000*ratio)*1000;
             if (isNaN(pix) || pix<=0 || (pixTemp<pix*1.05 && pixTemp>pix*0.95)) pix = pixTemp;
-            else errore("Il valore fornito di dimensione del pixel non è compatibile con le dimensioni e il numero di mp forniti");
+            else errore("Il valore fornito di dimensione del pixel non è compatibile con le dimensioni e il numero di mp forniti (valore compatibile: " + arrotonda(pixTemp,2) + ")","pix");
             diff = (1.4*pix)/(1.22*0.55);
             hoCalcolatoDens = true;
         } else if (!(pix==="" || isNaN(pix) || pix<=0)){
             var mpTemp = area/pix/pix;
             if (isNaN(mp) || mp<=0 || (mpTemp<mp*1.05 && mpTemp>mp*0.95)) mp = mpTemp;
-            else errore("Il valore fornito di numero di pixel non è compatibile con le dimensioni degli stessi");
+            else errore("Il valore fornito di numero di pixel non è compatibile con le dimensioni degli stessi (valore compatibile: " + arrotonda(mpTemp,1) + ")","mp");
             diff = (1.4*pix)/(1.22*0.55);
             hoCalcolatoDens = true;
         }
@@ -145,6 +153,14 @@ function fsd(){
         document.getElementById("pix").value = arrotonda(pix,2);
         document.getElementById("mp").value = arrotonda(mp,1);
         document.getElementById("diff").value = arrotonda(diff,1);
+    }
+    
+    if (!erroreFormSensore) {
+        document.getElementById("messaggioErrore").innerHTML = "";
+        document.getElementById("messaggioErrore").removeAttribute("class");
+        var td = document.getElementById("rigaInputSensore").childNodes[1].childNodes;
+        for (var nodo = 0; nodo<td.length; nodo++)
+            if (td[nodo].nodeType === 1) td[nodo].removeAttribute("class");
     }
 }
 
@@ -190,9 +206,9 @@ function aggiornaCanvas(base, altezza) {
     canvas.style.height = Math.round(altezza*DPI/25.4) + "px";
     canvas.width = Math.round(base*DPI/25.4);
     canvas.height = Math.round(altezza*DPI/25.4);
-    ctx.fillStyle = "#2255aa";
-    ctx.fillRect(0,0,canvas.width, canvas.height);
-        
+    //ctx.fillStyle = "#2255aa";
+    //ctx.fillRect(0,0,canvas.width, canvas.height);
+    canvas.style.boxShadow =("0px 0px " + Math.sqrt(base*base+altezza*altezza)/3 + "px"); 
 }
 </script>
 <div class="container">
@@ -203,28 +219,30 @@ function aggiornaCanvas(base, altezza) {
             </div>
             <div class="panel-body">
                 <form class="form-horizontal text-center">
-                    <table class="table table-responsive">
-                        <thead>
-                            <th>Circolo di confusione (μm)</th>
-                            <th>Focale (mm)</th>
-                            <th>Apertura</th>
-                            <th>Distanza fuoco</th>
-                            <th>A fuoco da</th>
-                            <th>A fuoco fino</th>
-                            <th>Iperfocale (m)</th>
-                            <th>PdC (m)</th>
-                        </thead>
-                        <tbody>
-                        <td><input type="text" class="form-control text-center" placeholder="8" id="cc" onchange="fpdc()"></td>
-                        <td><input type="text" class="form-control text-center" id="fl" onchange="fpdc()"></td>
-                        <td><input type="text" class="form-control text-center" id="fn" onchange="fpdc()"></td>
-                        <td><input type="text" class="form-control text-center" id="dmf" onchange="fpdc()"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="mfm"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="mfM"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="if"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="pdc"></td>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-responsive">
+                            <thead>
+                                <th>Circolo di confusione (μm)</th>
+                                <th>Focale (mm)</th>
+                                <th>Apertura</th>
+                                <th>Distanza fuoco</th>
+                                <th>A fuoco da</th>
+                                <th>A fuoco fino</th>
+                                <th>Iperfocale (m)</th>
+                                <th>PdC (m)</th>
+                            </thead>
+                            <tbody>
+                            <td><input type="text" class="form-control text-center" placeholder="8" id="cc" onchange="fpdc()"></td>
+                            <td><input type="text" class="form-control text-center" id="fl" onchange="fpdc()"></td>
+                            <td><input type="text" class="form-control text-center" id="fn" onchange="fpdc()"></td>
+                            <td><input type="text" class="form-control text-center" id="dmf" onchange="fpdc()"></td>
+                            <td><input type="text" readonly class="form-control text-center" id="mfm"></td>
+                            <td><input type="text" readonly class="form-control text-center" id="mfM"></td>
+                            <td><input type="text" readonly class="form-control text-center" id="if"></td>
+                            <td><input type="text" readonly class="form-control text-center" id="pdc"></td>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="row">
                         <div class="col col-md-3 col-md-offset-9">
                             <button class="btn btn-info btn-large btn-block" onclick="resetPdC()">Ripulisci</button>
@@ -242,32 +260,35 @@ function aggiornaCanvas(base, altezza) {
             </div>
             <div class="panel-body">
                 <form class="form-horizontal text-center">
-                    <table class="table table-responsive">
-                        <thead>
-                            <th>Dimensione (standard)</th>
-                            <th>Dimensione pixel (μm)</th>
-                            <th>Milioni di pixel</th>
-                            <th>Formato</th>
-                            <th>Larghezza (mm)</th>
-                            <th>Altezza (mm)</th>
-                            <th>Diagonale (mm)</th>
-                            <th>Area (mm²)</th>
-                            <th>Crop</th>
-                            <th>Diffrazione verde</th>
-                        </thead>
-                        <tbody>
-                        <td><input type="text" class="form-control text-center" id="dim" onchange="fsd()"></td>
-                        <td><input type="text" class="form-control text-center" id="pix" onchange="fsd()"></td>
-                        <td><input type="text" class="form-control text-center" id="mp" onchange="fsd()"></td>
-                        <td><input type="text" class="form-control text-center" id="ratio" onchange="fsd()"></td>
-                        <td><input type="text" class="form-control text-center" id="base" onchange="fsd()"></td>
-                        <td><input type="text" class="form-control text-center" id="alte" onchange="fsd()"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="diag"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="area"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="crop"></td>
-                        <td><input type="text" readonly class="form-control text-center" id="diff"></td>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-responsive">
+                            <thead>
+                                <th>Dimensione (standard)</th>
+                                <th>Dimensione pixel (μm)</th>
+                                <th>Milioni di pixel</th>
+                                <th>Formato</th>
+                                <th>Larghezza (mm)</th>
+                                <th>Altezza (mm)</th>
+                                <th>Diagonale (mm)</th>
+                                <th>Area (mm²)</th>
+                                <th>Fattore Crop</th>
+                                <th>Diffrazione verde</th>
+                            </thead>
+                            <tbody id="rigaInputSensore">
+                                <td><input type="text" class="form-control text-center" id="dim" onchange="fsd()"></td>
+                                <td><input type="text" class="form-control text-center" id="pix" onchange="fsd()"></td>
+                                <td><input type="text" class="form-control text-center" id="mp" onchange="fsd()"></td>
+                                <td><input type="text" class="form-control text-center" id="ratio" onchange="fsd()"></td>
+                                <td><input type="text" class="form-control text-center" id="base" onchange="fsd()"></td>
+                                <td><input type="text" class="form-control text-center" id="alte" onchange="fsd()"></td>
+                                <td><input type="text" readonly class="form-control text-center" id="diag"></td>
+                                <td><input type="text" readonly class="form-control text-center" id="area"></td>
+                                <td><input type="text" readonly class="form-control text-center" id="crop"></td>
+                                <td><input type="text" readonly class="form-control text-center" id="diff"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p id="messaggioErrore"></p>
                     <div class="row">
                         <div class="col col-md-5">
                             <select class="form-control" name="preset" id="preset" onchange="applicaPreset()">
@@ -298,8 +319,9 @@ function aggiornaCanvas(base, altezza) {
         </div>
         <br>
         <div class="row text-center">
-            <canvas id="sensore"></canvas>
+            <canvas id="sensore" width="0" height="0" style="background: url('./img/sensore.jpg'); background-size: cover;"></canvas>
         </div>
+        <br>
     </div>
 </div>
 @endsection

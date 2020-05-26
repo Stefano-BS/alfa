@@ -16,7 +16,7 @@
         <script src="{{ route('home') }}/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <nav class="navbar-default">
+        <nav class="navbar-default navbar-fixed-top" id='navbar'>
             <div class="container">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav">
                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -24,24 +24,20 @@
                 <a class="navbar-brand" href="{{ route('home')}}">Alfa</a>
                 <div class="collapse navbar-collapse" id="nav">
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ route('home') }}">Home</a></li>
-                        <!--li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Catalogo<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('corpi')}}">Corpi Macchina</a></li>
-                                <li><a href="{{ route('obbiettivi')}}">Obbiettivi</a></li>
-                            </ul>
-                        </li-->
-                        <li><a href="{{ route('corpi')}}">Corpi</a></li>
-                        <li><a href="{{ route('obbiettivi')}}">Obbiettivi</a></li>
-                        <li><a href="{{ route('strumenti')}}">Strumenti</a></li>
+                        <li id="navCorpi"><a href="{{ route('corpi')}}">📷 Corpi</a></li>
+                        <li id="navObbiettivi"><a href="{{ route('obbiettivi')}}">🔭 Obbiettivi</a></li>
+                        <li id="navStrumenti"><a href="{{ route('strumenti')}}">🧮 Strumenti</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                    @yield('barraAccesso')
+                        @yield('barraAccesso')
                     </ul>
                 </div>
             </div>
         </nav>
+        <div id='navSpazio'></div>
+        <script>
+            document.getElementById('navSpazio').style.height = document.getElementById('navbar').clientHeight + "px";
+        </script>
         @yield('corpo')
     </body>
 </html>
