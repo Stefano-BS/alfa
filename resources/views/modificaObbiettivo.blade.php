@@ -99,6 +99,7 @@
                         <div class="col-md-6 col-xs-12">
                             <button {{$giaPos?"disabled":""}} onclick="window.location = '{{ route('aggiuntaPossessoObbiettivo', ['utente' => $loggedName, 'id' => $obbiettivo->ID])}}';" class="btn btn-success btn-large btn-block"><span class="glyphicon glyphicon-check"> </span>  Lo possiedo</button>
                         </div>
+                        <div class="col-md-0 col-xs-12"> </div>
                         <div class="col-md-6 col-xs-12">
                             <button {{$giaDes?"disabled":""}} onclick="window.location = '{{ route('aggiuntaDesiderioObbiettivo', ['utente' => $loggedName, 'id' => $obbiettivo->ID])}}';" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-heart"> </span>  Lo desidero</button>
                         </div>
@@ -117,7 +118,7 @@
                         <img src="{{route('home')}}/img/ebay.png" width="13%"></a>
                     <a href="https://www.e-infin.com/eu/search/<?php echo str_replace(" ", "%20", $obbiettivo->{'Nome Completo'}); ?>">
                         <img src="{{route('home')}}/img/infin.png" width="13%"></a>
-                    <a href="https://www.eglobalcentral.co.it/product/<?php echo str_replace(" ", "%20", $obbiettivo->{'Nome Completo'}); ?>">
+                    <a href="https://www.eglobalcentral.co.it/catalogsearch/result/?cat=&q=<?php echo str_replace(" ", "+", $obbiettivo->{'Nome Completo'}); ?>">
                         <img src="{{route('home')}}/img/eglobal.png" width="13%"></a>
                     <a href="https://www.fotoema.it/ricerca-un-prodotto.html?searchword=<?php echo str_replace(" ", "+", $obbiettivo->{'Nome Completo'}); ?>">
                         <img src="{{route('home')}}/img/fotoema.png" width="13%"></a>

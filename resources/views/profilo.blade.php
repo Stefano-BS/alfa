@@ -31,10 +31,17 @@
                         <strong>Pannello di Amministrazione</strong>
                     </div>
                     <div class="panel-body">
-                        <a href="{{ route('obbiettivi', ['modifica' => "modifica"]) }}" class="btn btn-warning btn-large btn-block">
-                        <span class="glyphicon glyphicon-pencil"></span> Modifica obbiettivi</a>
-                        <a href="{{ route('corpi', ['modifica' => "modifica"]) }}" class="btn btn-warning btn-large btn-block">
-                        <span class="glyphicon glyphicon-pencil"></span> Modifica corpi macchina</a>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <a href="{{ route('obbiettivi', ['modifica' => "modifica"]) }}" class="btn btn-warning btn-large btn-block">
+                                <span class="glyphicon glyphicon-pencil"></span> Modifica obbiettivi</a>
+                            </div>
+                            <div class="col-md-0 col-xs-12"> </div>
+                            <div class="col-md-6 col-xs-12">
+                                <a href="{{ route('corpi', ['modifica' => "modifica"]) }}" class="btn btn-warning btn-large btn-block">
+                                <span class="glyphicon glyphicon-pencil"></span> Modifica corpi macchina</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

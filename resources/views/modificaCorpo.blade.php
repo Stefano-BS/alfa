@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1 col-xs-12">
             <header>
-                <h1><center style="margin-top: 1em;">{{ $corpo->Nome }}</center></h1>
+                <h1><center style="margin-top: 1em;">{{$corpo->Nome}}</center></h1>
             </header>
         </div>
     </div>
@@ -122,6 +122,7 @@
                         <div class="col-md-6 col-xs-12">
                             <button {{$giaPos?"disabled":""}} onclick="window.location = '{{ route('aggiuntaPossessoCorpo', ['utente' => $loggedName, 'id' => $corpo->ID])}}';" class="btn btn-success btn-large btn-block"><span class="glyphicon glyphicon-check"> </span>  Lo possiedo</button>
                         </div>
+                        <div class="col-md-0 col-xs-12"> </div>
                         <div class="col-md-6 col-xs-12">
                             <button {{$giaDes?"disabled":""}} onclick="window.location = '{{ route('aggiuntaDesiderioCorpo', ['utente' => $loggedName, 'id' => $corpo->ID])}}';" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-heart"> </span>  Lo desidero</button>
                         </div>
@@ -140,7 +141,7 @@
                         <img src="{{route('home')}}/img/ebay.png" width="13%"></a>
                     <a href="https://www.e-infin.com/eu/search/<?php echo str_replace([" ","α"], ["%20","a"], $corpo->Nome); ?>">
                         <img src="{{route('home')}}/img/infin.png" width="13%"></a>
-                    <a href="https://www.eglobalcentral.co.it/product/<?php echo str_replace([" ","α"], ["%20","a"], $corpo->Nome); ?>">
+                    <a href="https://www.eglobalcentral.co.it/catalogsearch/result/?cat=&q=<?php echo str_replace([" ","α"], ["%+","a"], $corpo->Nome); ?>">
                         <img src="{{route('home')}}/img/eglobal.png" width="13%"></a>
                     <a href="https://www.fotoema.it/ricerca-un-prodotto.html?searchword=<?php echo str_replace([" ","α"], ["+","a"], $corpo->Nome); ?>">
                         <img src="{{route('home')}}/img/fotoema.png" width="13%"></a>

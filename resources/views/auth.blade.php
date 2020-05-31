@@ -36,6 +36,7 @@
                                         <div class="col-md-6 col-xs-12">
                                             <input type="submit" name="login-submit" class="form-control btn btn-danger" value="Accedi">
                                         </div>
+                                        <div class="col-md-0 col-xs-12"> </div>
                                         <div class="col-md-6 col-xs-12">
                                             <input type="submit" name="login-submit" class="form-control btn btn-danger" value="Registrati">
                                         </div>
