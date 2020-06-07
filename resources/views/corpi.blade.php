@@ -5,9 +5,9 @@
 @section('barraAccesso')
 @if ($logged)
     <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
-    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  Esci</a></li>
+    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  @lang('str.esci')</a></li>
 @else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  Accedi</a></li>
+    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  @lang('str.accedi')</a></li>
 @endif
 @endsection
 
@@ -17,7 +17,7 @@
 </script>
 <div class="container">
     <header>
-        <h1 align="center">Catalogo Corpi</h1>
+        <h1 align="center">@lang('str.catalogo') @lang('str.corpi')</h1>
     </header>
 </div>
 <br>
@@ -26,7 +26,7 @@
         <div class="panel-group">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center"><a data-toggle="collapse" href="#collapse1"><span class="glyphicon glyphicon-filter"></span>  Seleziona Attributi</a></h3>
+                    <h3 class="panel-title text-center"><a data-toggle="collapse" href="#collapse1"><span class="glyphicon glyphicon-filter"></span>  @lang('str.selezionaAttributi')</a></h3>
                 </div>
                 <div id="collapse1" class="panel-collapse collapse">
                     <form  id="select-form" action="
@@ -41,26 +41,26 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label class="checkbox-inline"><input type="checkbox" name="ID" {{ $elencoAttributi["ID"] }}">ID</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Nome" {{ $elencoAttributi["Nome"] }}>Nome</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Data" {{ $elencoAttributi["Data"] }}>Data</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Nome" {{ $elencoAttributi["Nome"] }}>@lang('str.nome')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Data" {{ $elencoAttributi["Data"] }}>@lang('str.data')</label>
                                     <label class="checkbox-inline"><input type="checkbox" name="MSRP" {{ $elencoAttributi["MSRP"] }}>MSRP</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Materiale" {{ $elencoAttributi["Materiale"] }}>Materiale</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Risoluzione" {{ $elencoAttributi["Risoluzione"] }}>Risoluzione</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Formato" {{ $elencoAttributi["Formato"] }}>Formato</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="MaxISO" {{ $elencoAttributi["MaxISO"] }}>ISO Massimi</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="MaxISOExt" {{ $elencoAttributi["MaxISOExt"] }}>ISO Estesi</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="AF"  {{ $elencoAttributi["AF"] }}>Punti AF</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="OSS" {{ $elencoAttributi["OSS"] }}>Stabilizzazione</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Schermo" {{ $elencoAttributi["Schermo"] }}>Schermo</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Mirino" {{ $elencoAttributi["Mirino"] }}>Mirino</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Materiale" {{ $elencoAttributi["Materiale"] }}>@lang('str.materiale')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Risoluzione" {{ $elencoAttributi["Risoluzione"] }}>@lang('str.risoluzione')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Formato" {{ $elencoAttributi["Formato"] }}>@lang('str.formato')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="MaxISO" {{ $elencoAttributi["MaxISO"] }}>@lang('str.maxISO')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="MaxISOExt" {{ $elencoAttributi["MaxISOExt"] }}>@lang('str.ISOext')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="AF"  {{ $elencoAttributi["AF"] }}>@lang('str.punti') AF</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="OSS" {{ $elencoAttributi["OSS"] }}>@lang('str.stabilizzazione')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Schermo" {{ $elencoAttributi["Schermo"] }}>@lang('str.schermo')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Mirino" {{ $elencoAttributi["Mirino"] }}>@lang('str.mirino')</label>
                                     <label class="checkbox-inline"><input type="checkbox" name="Touch" {{ $elencoAttributi["Touch"] }}>Touch</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="MaxSS" {{ $elencoAttributi["MaxSS"] }}>Massima SS</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Flash" {{ $elencoAttributi["Flash"] }}>Flash integrato</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="FPS" {{ $elencoAttributi["FPS"] }}>Raffica</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="MaxSS" {{ $elencoAttributi["MaxSS"] }}>@lang('str.massima') SS</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Flash" {{ $elencoAttributi["Flash"] }}>Flash @lang('str.integrato')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="FPS" {{ $elencoAttributi["FPS"] }}>@lang('str.raffica')</label>
                                     <label class="checkbox-inline"><input type="checkbox" name="QHD" {{ $elencoAttributi["QHD"] }}>4K</label>
                                     <label class="checkbox-inline"><input type="checkbox" name="FHD" {{ $elencoAttributi["FHD"] }}>Full HD</label>
                                     <label class="checkbox-inline"><input type="checkbox" name="CIPA" {{ $elencoAttributi["CIPA"] }}>CIPA</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Peso" {{ $elencoAttributi["Peso"] }}>Peso</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Peso" {{ $elencoAttributi["Peso"] }}>@lang('str.peso')</label>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6 col-xs-12 col-md-offset-3">
-                                        <input type="submit" name="select-submit" class="form-control btn btn-danger" value="Applica">
+                                        <input type="submit" name="select-submit" class="form-control btn btn-danger" value="@lang('str.applica')">
                                     </div>
                                 </div>
                             </div>
@@ -87,28 +87,28 @@
                     <th>ID</th>
                     @endif
                     @if ($elencoAttributi["Nome"] !== "")
-                    <th>Nome</th>
+                    <th>@lang('str.nome')</th>
                     @endif
                     @if ($elencoAttributi["Data"] !== "")
-                    <th>Data</th>
+                    <th>@lang('str.data')</th>
                     @endif
                     @if ($elencoAttributi["MSRP"] !== "")
                     <th>MSRP</th>
                     @endif
                     @if ($elencoAttributi["Materiale"] !== "")
-                    <th>Materiale</th>
+                    <th>@lang('str.materiale')</th>
                     @endif
                     @if ($elencoAttributi["Risoluzione"] !== "")
-                    <th>Risoluzione</th>
+                    <th>@lang('str.risoluzione')</th>
                     @endif
                     @if ($elencoAttributi["Formato"] !== "")
-                    <th>Formato</th>
+                    <th>@lang('str.formato')</th>
                     @endif
                     @if ($elencoAttributi["MaxISO"] !== "")
-                    <th>ISO massimi</th>
+                    <th>@lang('str.maxISO')</th>
                     @endif
                     @if ($elencoAttributi["MaxISOExt"] !== "")
-                    <th>ISO Estesi</th>
+                    <th>@lang('str.ISOext')</th>
                     @endif
                     @if ($elencoAttributi["OSS"] !== "")
                     <th>OSS</th>
@@ -117,16 +117,16 @@
                     <th>AF</th>
                     @endif
                     @if ($elencoAttributi["Schermo"] !== "")
-                    <th>Schermo</th>
+                    <th>@lang('str.schermo')</th>
                     @endif
                     @if ($elencoAttributi["Mirino"] !== "")
-                    <th>Mirino</th>
+                    <th>@lang('str.mirino')</th>
                     @endif
                     @if ($elencoAttributi["Touch"] !== "")
                     <th>Touch</th>
                     @endif
                     @if ($elencoAttributi["MaxSS"] !== "")
-                    <th>Massima SS</th>
+                    <th>@lang('str.massima') SS</th>
                     @endif
                     @if ($elencoAttributi["Flash"] !== "")
                     <th>Flash</th>
@@ -144,7 +144,7 @@
                     <th>CIPA</th>
                     @endif
                     @if ($elencoAttributi["Peso"] !== "")
-                    <th>Peso</th>
+                    <th>@lang('str.peso')</th>
                     @endif
                 </tr>
             </thead>

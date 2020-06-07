@@ -24,9 +24,9 @@
                 <a class="navbar-brand" href="{{ route('home')}}">Alfa</a>
                 <div class="collapse navbar-collapse" id="nav">
                     <ul class="nav navbar-nav">
-                        <li id="navCorpi"><a href="{{ route('corpi')}}">📷 Corpi</a></li>
-                        <li id="navObbiettivi"><a href="{{ route('obbiettivi')}}">🔭 Obbiettivi</a></li>
-                        <li id="navStrumenti"><a href="{{ route('strumenti')}}">🧮 Strumenti</a></li>
+                        <li id="navCorpi"><a href="{{ route('corpi')}}">📷 @lang('str.corpi')</a></li>
+                        <li id="navObbiettivi"><a href="{{ route('obbiettivi')}}">🔭 @lang('str.obbiettivi')</a></li>
+                        <li id="navStrumenti"><a href="{{ route('strumenti')}}">🧮 @lang('str.strumenti')</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @yield('barraAccesso')

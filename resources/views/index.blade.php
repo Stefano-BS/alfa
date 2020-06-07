@@ -5,9 +5,9 @@
 @section('barraAccesso')
 @if ($logged)
     <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
-    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  Esci</a></li>
+    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  @lang('str.esci')</a></li>
 @else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  Accedi</a></li>
+    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  @lang('str.accedi')</a></li>
 @endif
 @endsection
 
@@ -17,15 +17,14 @@
     <div class="row">
         <div class="col-sm-9" id="colonna">
             <header>
-                <h1>Meraviglioso sito Alfa</h1>
+                <h1>@lang('str.titoloHome')</h1>
             </header>
-            <p class="lead">Un semplicissimo esempio di sito web realizzato durante il corso di Programmazione Web e Servizi Digitali.<br>
-            Entro questo sito è possibile consultare un catalogo di gran parte degli obbiettivi disponibili per Sony E-Mount (esclusivamente quelli in formato APS-C) e conoscerne le caratteristiche principali.
-            Allo stesso modo, sono catalogati i corpi macchina più recenti (a partire dal 2014).<br>
-            Al fine di personalizzare l'interazione col catalogo, un utente registrato può dichiarare un articolo come <i>posseduto o desiderato</i>. Per ognuno di questi è infine possibile effettuare ricerche rapide di annunci di vendita sui principali portali online.</p>
+            <p class="lead">@lang('str.intro1')<br>
+            @lang('str.intro2')<br>
+            @lang('str.intro3')</p>
             <br>
             <blockquote>
-                <p>Non colui che ignora l'alfabeto, bensì colui che ignora la fotografia sarà l'analfabeta del futuro.</p>
+                <p>@lang('str.cit')</p>
                 <small>Walter Benjamin</small>
             </blockquote>
         </div>

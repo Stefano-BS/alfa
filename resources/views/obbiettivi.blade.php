@@ -5,9 +5,9 @@
 @section('barraAccesso')
 @if ($logged)
     <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
-    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  Esci</a></li>
+    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  @lang('str.esci')</a></li>
 @else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  Accedi</a></li>
+    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  @lang('str.accedi')</a></li>
 @endif
 @endsection
 
@@ -17,7 +17,7 @@
 </script>
 <div class="container">
     <header>
-        <h1 align="center">Catalogo Obbiettivi</h1>
+        <h1 align="center">@lang('str.catalogo') @lang('str.obbiettivi')</h1>
     </header>
 </div>
 <br>
@@ -26,7 +26,7 @@
         <div class="panel-group">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center"><a data-toggle="collapse" href="#collapse1"><span class="glyphicon glyphicon-filter"></span>  Applica dei filtri</a></h3>
+                    <h3 class="panel-title text-center"><a data-toggle="collapse" href="#collapse1"><span class="glyphicon glyphicon-filter"></span>  @lang('str.filtraElenco')</a></h3>
                 </div>
                 <div id="collapse1" class="panel-collapse collapse">
                     <form  id="select-form" action="
@@ -39,36 +39,36 @@
                         @csrf 
                         <div class="container">
                             <div class="panel-body">
-                                <h3 class="text-center">Seleziona Attributi</h3>
+                                <h3 class="text-center">@lang('str.selezionaAttributi')</h3>
                                 <div class="form-group">
                                     <label class="checkbox-inline"><input type="checkbox" name="ID" {{ $elencoAttributi["ID"] }}">ID</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Marca" {{ $elencoAttributi["Marca"] }}>Marca</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Nome" {{ $elencoAttributi["Nome"] }}>Nome Completo</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="Rating" {{ $elencoAttributi["Rating"] }}>Rating</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="LMin" {{ $elencoAttributi["LMin"] }}>Lunghezza minima</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="LMax" {{ $elencoAttributi["LMax"] }}>Lunghezza Massima</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="F" {{ $elencoAttributi["F"] }}>Apertura</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="FLMax" {{ $elencoAttributi["FLMax"] }}>Apertura a focale massima</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Marca" {{ $elencoAttributi["Marca"] }}>@lang('str.marca')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Nome" {{ $elencoAttributi["Nome"] }}>@lang('str.nomeCompleto')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="Rating" {{ $elencoAttributi["Rating"] }}>@lang('str.rating')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="LMin" {{ $elencoAttributi["LMin"] }}>@lang('str.lmin')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="LMax" {{ $elencoAttributi["LMax"] }}>@lang('str.lmax')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="F" {{ $elencoAttributi["F"] }}>@lang('str.apertura')</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="FLMax" {{ $elencoAttributi["FLMax"] }}>@lang('str.apertura') @lang('str.amaxf')</label>
                                     <label class="checkbox-inline"><input type="checkbox" name="TAG"  {{ $elencoAttributi["TAG"] }}>TAG</label>
-                                    <label class="checkbox-inline"><input type="checkbox" name="OSS" {{ $elencoAttributi["OSS"] }}>Stabilizzazione</label>
+                                    <label class="checkbox-inline"><input type="checkbox" name="OSS" {{ $elencoAttributi["OSS"] }}>@lang('str.stabilizzazione')</label>
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <h3 class="text-center">Filtra i record</h3>
+                                <h3 class="text-center">@lang('str.filtraElenco')</h3>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-2 col-md-offset-1">
-                                            <label for="sel-marca">Marca:</label>
+                                            <label for="sel-marca">@lang('str.marca'):</label>
                                         </div>
                                         <div class="col-md-8">
                                             <select class="form-control" name="sel-marca" id="sel-marca">
-@foreach ($listaMarche as $marca)
-    @if ($marca == $marcaSelezionata)
-        <option selected>{{$marca}}</option>
-    @else
-        <option>{{$marca}}</option>
-    @endif
-@endforeach
+                                            @foreach ($listaMarche as $marca)
+                                                @if ($marca == $marcaSelezionata)
+                                                    <option selected>{{$marca}}</option>
+                                                @else
+                                                    <option>{{$marca}}</option>
+                                                @endif
+                                            @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -76,20 +76,19 @@
                                     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
                                     <link rel="stylesheet" href="/resources/demos/style.css">
                                     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
-                                    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
                                     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
                                     <script>
                                     $(function() {
                                         $("#focal-range").slider({
                                             range: true,
                                             min: 1,
-                                            max: 500,
+                                            max: 350,
                                             values: [ "{{$focaliSelezionate[0]}}", "{{$focaliSelezionate[1]}}" ],
                                             slide: function( event, ui ) {
                                                 $( "#focale" ).val("Focale: " + ui.values[ 0 ] + " - " + ui.values[ 1 ] + " mm");
                                             }
                                         });
-                                        $("#focale").val("Focale: " + $("#focal-range").slider("values", 0) + " - " + $("#focal-range").slider("values", 1) + " mm");
+                                        $("#focale").val("@lang('str.focale'): " + $("#focal-range").slider("values", 0) + " - " + $("#focal-range").slider("values", 1) + " mm");
                                     });
                                     </script>
                                     <div class="row">
@@ -112,11 +111,10 @@
                                                 $( "#apertura" ).val("Apertura: f" + ui.values[ 0 ] + " - f" + ui.values[ 1 ]);
                                             }
                                         });
-                                        $("#apertura").val("Apertura: f" + $("#aperture-range").slider("values", 0) + " - f" + $("#aperture-range").slider("values", 1));
+                                        $("#apertura").val("@lang('str.apertura'): f" + $("#aperture-range").slider("values", 0) + " - f" + $("#aperture-range").slider("values", 1));
                                     });
                                     </script>
-                                    <div class="row" data-toggle="tooltip" title="L'estremo inferiore del range rappresenta il valore massimo di apertura necessario. 
-                                         L'estremo superiore rappresenta l'apertura massima necessaria a lunghezza focale massima">
+                                    <div class="row" data-toggle="tooltip" title="@lang('str.aiutoApertura')">
                                         <div class="col-md-2 col-md-offset-1 align-content-center">
                                             <input type="text" name="aperture-range" id="apertura" readonly style="border: 0; font-weight:bold;">
                                         </div>
@@ -151,22 +149,22 @@
                         <th>ID</th>
                         @endif
                         @if ($elencoAttributi["Marca"] !== "")
-                        <th>Marca</th>
+                        <th>@lang('str.marca')</th>
                         @endif
                         @if ($elencoAttributi["Nome"] !== "")
-                        <th>Nome Completo</th>
+                        <th>@lang('str.nomeCompleto')</th>
                         @endif
                         @if ($elencoAttributi["Rating"] !== "")
-                        <th>Rating</th>
+                        <th>@lang('str.rating')</th>
                         @endif
                         @if ($elencoAttributi["LMin"] !== "")
-                        <th>Focale minima</th>
+                        <th>@lang('str.lmin')</th>
                         @endif
                         @if ($elencoAttributi["LMax"] !== "")
-                        <th>Focale massima</th>
+                        <th>@lang('str.lmax')</th>
                         @endif
                         @if ($elencoAttributi["F"] !== "")
-                        <th>Apertura massima</th>
+                        <th>@lang('str.maxf')</th>
                         @endif
                         @if ($elencoAttributi["FLMax"] !== "")
                         <th>F@LMax</th>
@@ -237,7 +235,7 @@
                             @endif
                         </td>
                         @endif
-<!--                        @if ($admin && $modifica)
+                        <!--@if ($admin && $modifica)
                         <td><a class="btn btn-default" href="{{ route('modificaObbiettivo', ['obbiettivo' => $obbiettivo->ID, 'modifica' => ($modifica? "modifica" : "visualizza")]) }}">
                         <span class="glyphicon glyphicon-pencil"></span></a></td>
                         @endif-->

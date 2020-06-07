@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\DB;
+use Session;
 
 class AuthController extends Controller
 {
@@ -22,6 +23,8 @@ class AuthController extends Controller
                 $_SESSION['loggedName'] = $request->input('username');
                 $_SESSION['idUtente'] = $risultatoAccesso[1];
                 $_SESSION['admin'] = $risultatoAccesso[2];
+                Session::forget('lingua');
+                Session::put('lingua', $risultatoAccesso[3]);
                 return view('index')->with('logged',true)->with('loggedName', $request->input('username'));
             } else {
                 return view('auth')->with('logged',false)->with('messaggio', "Utente già registrato");
@@ -36,6 +39,8 @@ class AuthController extends Controller
                 $_SESSION['loggedName'] = $request->input('username');
                 $_SESSION['idUtente'] = $risultatoAccesso[1];
                 $_SESSION['admin'] = $risultatoAccesso[2];
+                Session::forget('lingua');
+                Session::put('lingua', $risultatoAccesso[3]);
                 return Redirect::to(route('home'));
             }
         }
@@ -46,6 +51,9 @@ class AuthController extends Controller
         session_destroy();
         $_SESSION['logged'] = false;
         $_SESSION['loggedName'] = "";
+        $_SESSION['idUtente'] = -1;
+        $_SESSION['admin'] = false;
+        Session::forget('lingua');
         return Redirect::to(route('home'));
     }
 }

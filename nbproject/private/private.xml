@@ -13,8 +13,11 @@
             <file>file:/C:/xampp/htdocs/laravel/resources/views/index.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/auth.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/strumenti.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/lang/en/str.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Middleware/Lingua.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/modificaCorpo.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/layout/master.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/lang/it/str.php</file>
             <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/ObbiettiviController.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/profilo.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/corpi.blade.php</file>

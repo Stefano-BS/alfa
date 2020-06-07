@@ -8,7 +8,7 @@ class Utente extends Model
     public $timestamps = false;
     protected $table = "utenti";
     protected $primaryKey = "ID";
-    protected $fillable = ['Nome','Password','permessi'];
+    protected $fillable = ['Nome','Password','permessi','lingua'];
     
     public function desideriObbiettivo() {
         return $this->belongsToMany("App\Obbiettivo", "App\Desiderio", "IDUtente","IDObbiettivo");

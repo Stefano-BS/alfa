@@ -12,7 +12,7 @@ class DB {
     
     //  OBBIETTIVI
     public function elencoObbiettivi($marca, $focaliSelezionate, $apertureSelezionate) {
-        if ($marca == "Tutte") {
+        if ($marca == trans('str.tutte')) {
             return Obbiettivo::where([
                 ['LMin','>=',$focaliSelezionate[0]],
                 ['LMax','<=',$focaliSelezionate[1]],
@@ -58,7 +58,7 @@ class DB {
         if (count($query) == 0) {
             return [false, -1, 0];
         } else {
-            return  [(md5($password) == $query[0]->Password), $query[0]->ID, $query[0]->permessi];
+            return  [(md5($password) == $query[0]->Password), $query[0]->ID, $query[0]->permessi, $query[0]->lingua];
         }
     }
     
@@ -71,6 +71,10 @@ class DB {
         $nuovoUtente = new Utente(['Nome' => $nome, 'Password' => md5($password), 'permessi' => 0]);
         $nuovoUtente->save();
         return true;
+    }
+    
+    public function cambiaLingua($id, $valore) {
+        Utente::find($id)->update(['lingua' => $valore]);
     }
     
     

@@ -29,3 +29,12 @@
     color: #000;
     background-color: #efe6e0;
 }
+
+@font-face {
+  font-family: emoji;
+  src: url(../fonts/APPLE.TTF);
+}
+
+.selectLingua {
+  font-family: emoji;
+}

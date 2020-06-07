@@ -12,12 +12,12 @@ class ObbiettiviController extends Controller {
         $modifica = $modifica == "modifica";
         $db = new DB();
         $admin = false;
-        $listaMarche = ["Tutte","7Artisans","Dorr","Kamlan","Laowa","Lensbaby","Meike","Mitakon","Neewer","Samyang","Sigma","Sony","SLR Magic","Tamron","Yashuara","Zeiss","Zonlai"];
+        $listaMarche = [trans('str.tutte'),"7Artisans","Dorr","Kamlan","Laowa","Lensbaby","Meike","Mitakon","Neewer","Samyang","Sigma","Sony","SLR Magic","Tamron","Yashuara","Zeiss","Zonlai"];
         
         if ($request->method() == "GET") {
             $focaliSelezionate = [4, 350];
             $apertureSelezionate = [7.4, 8];
-            $marcaSelezionata = "Tutte";
+            $marcaSelezionata = trans('str.tutte');
             $elencoAttributi = ["Nome" => "", "ID" => "", "Marca" => "checked", "Rating" => "checked", "LMin" => "checked", "LMax" => "checked", "F" => "checked", "FLMax" => "checked", "TAG" => "checked", "OSS" => "checked"];
         } elseif ($request->method() == "POST") {
             $elencoAttributi = ["Nome" => "", "ID" => "", "Marca" => "", "Rating" => "", "LMin" => "", "LMax" => "", "F" => "", "FLMax" => "", "TAG" => "", "OSS" => ""];
@@ -42,13 +42,15 @@ class ObbiettiviController extends Controller {
         
         $elenco = $db->elencoObbiettivi($marcaSelezionata, $focaliSelezionate, $apertureSelezionate);
         
-        if(isset($_SESSION['logged'])) {
+        if(isset($_SESSION['logged']) && $_SESSION['logged']==true) {
                 $admin = $_SESSION["admin"];
-                return view('obbiettivi')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('modifica',false)
-                        ->with('elencoAttributi', $elencoAttributi)->with('marcaSelezionata', $marcaSelezionata)->with('listaMarche',$listaMarche)->with('focaliSelezionate',$focaliSelezionate)->with('apertureSelezionate',$apertureSelezionate)->with('elenco',$elenco)->with('admin',$admin)->with('modifica',$modifica);
+                return view('obbiettivi')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('admin',$admin)->with('modifica',$modifica)
+                        ->with('elencoAttributi', $elencoAttributi)->with('marcaSelezionata', $marcaSelezionata)->with('listaMarche',$listaMarche)
+                        ->with('focaliSelezionate',$focaliSelezionate)->with('apertureSelezionate',$apertureSelezionate)->with('elenco',$elenco);
             } else {
-                return view('obbiettivi')->with('logged',false)->with('modifica',false)
-                        ->with('elencoAttributi', $elencoAttributi)->with('marcaSelezionata', $marcaSelezionata)->with('listaMarche',$listaMarche)->with('focaliSelezionate',$focaliSelezionate)->with('apertureSelezionate',$apertureSelezionate)->with('elenco',$elenco)->with('admin',false)->with('modifica',$modifica);
+                return view('obbiettivi')->with('logged',false)->with('admin',false)->with('modifica',false)
+                        ->with('elencoAttributi', $elencoAttributi)->with('marcaSelezionata', $marcaSelezionata)->with('listaMarche',$listaMarche)
+                        ->with('focaliSelezionate',$focaliSelezionate)->with('apertureSelezionate',$apertureSelezionate)->with('elenco',$elenco);
             }
     }
     
