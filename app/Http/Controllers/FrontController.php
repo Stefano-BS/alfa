@@ -19,9 +19,9 @@ class FrontController extends Controller
     public function strumenti(){
         session_start();
         if(isset($_SESSION['logged'])) {
-            return view('strumenti')->with('logged',true)->with('loggedName', $_SESSION['loggedName']);
+            return view('strumenti')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('obbiettivi', Obbiettivo::all());
         } else {
-            return view('strumenti')->with('logged',false);
+            return view('strumenti')->with('logged',false)->with('obbiettivi', Obbiettivo::all());
         }
     }
 }

@@ -63,6 +63,8 @@ return [
     'cit' => 'Those who do not learn how to decipher photographs will be the illiterate of the future.',
     
     'pannelloAdmin' => 'Administration Panel',
+    'immProfilo' => 'Profile Picture',
+    'caricaFile' => 'Load Image',
     'listaDesideri' => 'Wish List',
     'pannelloPossessi' => 'Owned List',
     'suggerimentodesideri' => 'To declare an article as desired, jump to its sheet',
@@ -88,6 +90,7 @@ return [
     'fattoreCrop' => 'Crop Factor',
     'diffrazioneVerde' => 'Green Diffraction',
     'ff' => 'Full Frame',
+    'aFuocoDa' => 'In Foucs From',
     
     'errore1' => '"The size of the circle of confusion chosen is not acceptable"',
     'errore2' => '"The focal length chosen is not acceptable"',
@@ -105,4 +108,6 @@ return [
     'errore14' => '"The chosen value of height is not compatible with sensor size and format (compatible value: "',
     'errore15' => '"The chosen value of pixel size is not compatible with sensor size and the megapixel count (compatible value: "',
     'errore16' => '"The chosen value of pixel count is not compatible with their size (compatible value: "',
-];
+
+    'e404' => 'Resource not Found',
+ ];

@@ -3,12 +3,11 @@
 @section('titolo','Alfa: Corpi macchina')
 
 @section('barraAccesso')
-@if ($logged)
-    <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
-    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  @lang('str.esci')</a></li>
-@else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  @lang('str.accedi')</a></li>
-@endif
+<?php
+    require_once('barra.php');
+    if (!defined("loggedName")) barra($logged, "", "");
+    else barra($logged, $loggedName, "");
+?>
 @endsection
 
 @section('corpo')

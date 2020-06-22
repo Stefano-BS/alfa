@@ -12,7 +12,7 @@ class ObbiettiviController extends Controller {
         $modifica = $modifica == "modifica";
         $db = new DB();
         $admin = false;
-        $listaMarche = [trans('str.tutte'),"7Artisans","Dorr","Kamlan","Laowa","Lensbaby","Meike","Mitakon","Neewer","Samyang","Sigma","Sony","SLR Magic","Tamron","Yashuara","Zeiss","Zonlai"];
+        $listaMarche = [trans('str.tutte'),"7Artisans","Dorr","Kamlan","Laowa","Lensbaby","Meike","Mitakon","Neewer","Samyang","Sigma","Sony","SLR Magic","Tamron","Yasuhara","Yongnuo","Zeiss","Zonlai"];
         
         if ($request->method() == "GET") {
             $focaliSelezionate = [4, 350];
@@ -61,6 +61,10 @@ class ObbiettiviController extends Controller {
         if (isset($_SESSION['loggedName'])) {$loggedName = $_SESSION['loggedName'];}
         if (isset($_SESSION['admin'])) {$admin = $_SESSION['admin'];}
         $obbiettivo = Obbiettivo::find($obbiettivo);
+        if (empty($obbiettivo)) {
+            return Redirect::back();
+            //return $this->tabella(new Request(), $modifica);
+        }
         if (isset($_SESSION['idUtente'])) {
             $db = new DB();
             $desideri = $db->elencoDesideriObbiettivo($_SESSION['idUtente']);

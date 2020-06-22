@@ -7,21 +7,24 @@
 @endif
 
 @section('barraAccesso')
-@if ($logged)
-    <li class='active'><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
-    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  @lang('str.esci')</a></li>
-@else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  @lang('str.accedi')</a></li>
-@endif
+<?php
+    require_once('barra.php');
+    if (!defined("loggedName")) barra($logged, "", "");
+    else barra($logged, $loggedName, "");
+?>
 @endsection
 
 @section('corpo')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <header>
+            <header class='text-center'>
                 <br>
-                <h1 align="center" style="word-wrap: break-word;">{{ $loggedName }}</h1>
+                @if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/laravel/public/utenti/" . $loggedName))
+                    <img id="imProfilo" onclick="window.location='{{route('home')}}/utenti/{{$loggedName}}'" src='{{route('home')}}/utenti/{{$loggedName}}' class='img-circle' style="box-shadow: 0px 0px 30px;"/>
+                    <script>$("#imProfilo").fadeOut(0);</script>
+                @endif
+                <h1 align="center" style="word-wrap: break-word; text-shadow: 0px 0px 10px rgba(0,0,0,0.4); color: rgb(32,0,0);">{{ $loggedName }}</h1>
                 <br>
             </header>
             <div class="panel-group">
@@ -31,16 +34,28 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <form method="get">
+                            <form method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <div class="col-sm-4 col-sm-offset-2"><h5 class='pull-right'>@lang('str.lingua'):</h5></div>
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <h5 class='pull-right'>@lang('str.immProfilo'):</h5>
+                                    </div>
+                                    <div class='col-sm-4'>
+                                        <input type="file" class="immagineProfilo"  name="immagine" id="caricaImmProfilo" accept="image/x-png,image/jpeg" onchange="submit()"/>
+                                        <label for="caricaImmProfilo">
+                                            <h5><span class='glyphicon glyphicon-upload'></span>  @lang('str.caricaFile')  </h5>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2"> </div>
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <h5 class='pull-right'>@lang('str.lingua'):</h5>
+                                    </div>
                                     <div class='col-sm-4 selectLingua'>
                                         <select name="lingua" id="lingua" class="form-control"
                                         onchange="location.href = '{{route('paginaUtente', ['utente' => $loggedName])}}/cambialingua/' + document.getElementById('lingua').value;">
                                             <option value="en" @if ($lingua == 'en') selected @endif>🇬🇧  English</option>
                                             <option value="it" @if ($lingua == 'it') selected @endif>🇮🇹  Italiano</option>
-                                        </select></font>
+                                        </select>
                                     </div>
                                 </div>
                             </form>
@@ -118,14 +133,12 @@
 <div id="confermaEliminazione" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <center>
-            <div class="modal-header">
+            <div class="modal-header text-center">
                 <h4 class="modal-title" id="nomeArticolo"></h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
                 <h4 class="modal-title">@lang('str.confermaEliminazione')</h4>
             </div>
-            </center>
             <div class="modal-footer">
                 <div class="container">
                 <div class="row">
@@ -143,5 +156,10 @@ function eliminazione(event, nome, link) {
     document.getElementById("nomeArticolo").innerHTML = nome;
     document.getElementById("confermaFinale").setAttribute("onclick", "window.location.href = \"" + link + "\"");
 }
+
+img = document.getElementById("imProfilo");
+img.setAttribute("width","50%");
+img.setAttribute("height", img.parentNode.offsetWidth/2);
+$("#imProfilo").fadeIn(1000);
 </script>
 @endsection

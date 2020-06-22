@@ -38,3 +38,29 @@
 .selectLingua {
   font-family: emoji;
 }
+
+.immagineProfilo {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.immagineProfilo + label {
+    background-color: rgb(240,173,78);
+    width: 100%;
+    text-align: center;
+    border-radius: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.immagineProfilo:focus + label,
+.immagineProfilo + label:hover {
+      background-color: rgb(237,156,40);
+}

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 use App\DB;
 use Session;
 
@@ -13,6 +14,7 @@ class ProfiloController extends Controller
                 return Redirect::to(route('home'));
             }
             $db = new DB();
+            
             return view('profilo')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('admin', $_SESSION['admin'])->with('lingua', Session::get('lingua'))
                     ->with('desideri',$db->elencoDesideriObbiettivo($_SESSION['idUtente']))->with('possessi',$db->elencoPossessiObbiettivo($_SESSION['idUtente']))
                     ->with('desideriCorpo',$db->elencoDesideriCorpo($_SESSION['idUtente']))->with('possessiCorpo',$db->elencoPossessiCorpo($_SESSION['idUtente']));
@@ -64,5 +66,11 @@ class ProfiloController extends Controller
         session_start();
         $db->cambiaLingua($_SESSION['idUtente'], $lingua);
         return Redirect::back();//Redirect::to(route('paginaUtente',['utente' => $utente]));
+    }
+    
+    public function cambiaImmagine(Request $request, $utente){
+        $request->validate(['immagine' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
+        $request->immagine->move(public_path('utenti'), $utente);
+        return Redirect::to(route('paginaUtente',['utente' => $utente]));
     }
 }

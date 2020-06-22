@@ -9,6 +9,7 @@ Route::group(['middleware' => ['lingua']], function() {
     Route::get('/uscita', ['as' => 'uscita','uses' => 'AuthController@logout']);
 
     Route::get('/{utente}/profilo', ['as' => 'paginaUtente','uses' => 'ProfiloController@profilo']);
+    Route::post('/{utente}/profilo', ['as' => 'immagine','uses' => 'ProfiloController@cambiaImmagine']);
     Route::get('/{utente}/profilo/cambialingua/{lingua}', ['as' => 'cambiaLingua','uses' => 'ProfiloController@cambiaLingua']);
     Route::get('/{utente}/profilo/rimozionedesiderioobbiettivo/{id}', ['as' => 'rimozioneDesiderioObbiettivo','uses' => 'ProfiloController@rimozioneDesiderioObbiettivo']);
     Route::get('/{utente}/profilo/rimozionepossessoobbiettivo/{id}', ['as' => 'rimozionePossessoObbiettivo','uses' => 'ProfiloController@rimozionePossessoObbiettivo']);

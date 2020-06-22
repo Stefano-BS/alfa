@@ -58,6 +58,9 @@ class CorpiController extends Controller {
         if (isset($_SESSION['loggedName'])) {$loggedName = $_SESSION['loggedName'];}
         if (isset($_SESSION['admin'])) {$admin = $_SESSION['admin'];}
         $corpo = Corpo::find($corpo);
+        if (empty($corpo)) {
+            return Redirect::back();
+        }
         if (isset($_SESSION['idUtente'])) {
             $db = new DB();
             $desideri = $db->elencoDesideriCorpo($_SESSION['idUtente']);

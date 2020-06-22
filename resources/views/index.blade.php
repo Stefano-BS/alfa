@@ -3,12 +3,11 @@
 @section('titolo','Alfa')
 
 @section('barraAccesso')
-@if ($logged)
-    <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
-    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  @lang('str.esci')</a></li>
-@else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  @lang('str.accedi')</a></li>
-@endif
+<?php
+    require_once('barra.php');
+    if (!defined("loggedName")) barra($logged, "", "");
+    else barra($logged, $loggedName, "");
+?>
 @endsection
 
 @section('corpo')
@@ -33,15 +32,16 @@
             <a data-toggle="collapse" href="#-{{$corpo->ID}}" role="button" aria-expanded="false">
                 <img id="corpoMacchina" src="{{route('home')}}/img/{{$corpo->Nome}}.png" width="100%">
             </a>
-            <div class="collapse" id="-{{$corpo->ID}}">
+            <div class="collapse text-center" id="-{{$corpo->ID}}">
                 <div class="card card-body">
-                    <br><em><center>Sony {{$corpo->Nome}}</em></center>
+                    <br>
+                    <h3><span class="label label-default">Sony {{$corpo->Nome}}</span></h3>
                 </div>
             </div>
         </div>
     </div>
     <hr>
-    <div class="row"><center>
+    <div class="row text-center">
         @foreach ($obbiettivi as $elemento)
         <div class="col-md-3 col-xs-12 align-middle">
             <a data-toggle="collapse" href="#{{$elemento->ID}}" role="button" aria-expanded="false">
@@ -49,12 +49,12 @@
             </a>
             <div class="collapse" id="{{$elemento->ID}}">
                 <div class="card card-body">
-                    <em><center>{{$elemento->{'Nome Completo'} }}</em></center>
+                    <h3><span class="label label-default">{{$elemento->{'Nome Completo'} }}</span></h3>
                 </div>
             </div>
         </div>
         @endforeach
-    </center></div>
+    </div>
     <script>
         var altezzaColonna = document.getElementById('colonna').clientHeight;
         var topColonna = document.getElementById('colonna').getBoundingClientRect().top;

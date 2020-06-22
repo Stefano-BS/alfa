@@ -16,8 +16,8 @@ class DB {
             return Obbiettivo::where([
                 ['LMin','>=',$focaliSelezionate[0]],
                 ['LMax','<=',$focaliSelezionate[1]],
-                ['F','<=',$apertureSelezionate[0]],
-                ['FLMax','<=',$apertureSelezionate[1]]
+                ['F','<=', $apertureSelezionate[0]],
+                ['FLMax','<=', $apertureSelezionate[1]]
             ])->get();
             
         } else {
@@ -25,8 +25,8 @@ class DB {
                 ['Marca', $marca],
                 ['LMin','>=',$focaliSelezionate[0]],
                 ['LMax','<=',$focaliSelezionate[1]],
-                ['F','<=',$apertureSelezionate[0]],
-                ['FLMax','<=',$apertureSelezionate[1]]
+                ['F','<=', $apertureSelezionate[0]],
+                ['FLMax','<=', $apertureSelezionate[1]]
             ])->get();
         }
     }

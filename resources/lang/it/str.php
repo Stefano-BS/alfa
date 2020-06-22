@@ -63,6 +63,8 @@ return [
     'cit' => 'Non colui che ignora l\'alfabeto, bensì colui che ignora la fotografia sarà l\'analfabeta del futuro.',
     
     'pannelloAdmin' => 'Pannello di Amministrazione',
+    'immProfilo' => 'Immagine di Profilo',
+    'caricaFile' => 'Carica Immagine',
     'listaDesideri' => 'Lista dei Desideri',
     'pannelloPossessi' => 'Articoli posseduti',
     'suggerimentodesideri' => 'Per dichiarare un articolo come desiderato, aprine la realtiva scheda',
@@ -88,6 +90,7 @@ return [
     'fattoreCrop' => 'Fattore di Crop',
     'diffrazioneVerde' => 'Diffrazione verde',
     'ff' => 'Pieno Formato',
+    'aFuocoDa' => 'A Fuoco Da',
     
     'errore1' => '"La dimensione del circolo di confusione impostata non è accettabile"',
     'errore2' => '"La lunghezza focale impostata non è accettabile"',
@@ -106,4 +109,5 @@ return [
     'errore15' => '"Il valore fornito di dimensione del pixel non è compatibile con le dimensioni e il numero di mp forniti (valore compatibile: "',
     'errore16' => '"Il valore fornito di numero di pixel non è compatibile con le dimensioni degli stessi (valore compatibile: "',
     
+    'e404' => 'Risorsa non Trovata',
 ];

@@ -3,17 +3,15 @@
 @section('titolo','Alfa')
 
 @section('barraAccesso')
-@if ($logged)
-    <li><a href="{{ route('paginaUtente', ['utente' => $loggedName])}}"><span class="glyphicon glyphicon-user"></span>  {{$loggedName}}</a></li>
-    <li><a href="{{ route('uscita') }}"><span class="glyphicon glyphicon-log-out"></span>  @lang('str.esci')</a></li>
-@else
-    <li><a href="{{ route('accesso')  }}"><span class="glyphicon glyphicon-user"></span>  @lang('str.accedi')</a></li>
-@endif
+<?php
+    require_once('barra.php');
+    if (!defined("loggedName")) barra($logged, "", "");
+    else barra($logged, $loggedName, "");
+?>
 @endsection
 
 @section('corpo')
-<script>
-    document.getElementById('navStrumenti').setAttribute('class', 'active');
+<script>    document.getElementById('navStrumenti').setAttribute('class', 'active');
 </script>
 <div class="container">
     <header>
@@ -60,8 +58,17 @@ function arrotonda(n, p) {
     return Math.round(n*Math.pow(10,p))/Math.pow(10,p);
 }
 
+calcIper = function (fl, fn, cc) {
+    return fl*fl/(fn*cc)+fl/1000;
+};
+
+calcMessaFuocoMinIper = function (iper, fl) {
+    return (iper-fl/1000)*iper/(2*iper-2*fl/1000);
+}
+    
 function fpdc(){
     azzeramentoErrori("messaggioErroreLente", "rigaInputLente");
+    $("#grafico").addClass('hidden');
     //Dichiarazione Variabili del calcolo ed ottenimento dei valori
     var cc = pFloat(document.getElementById("cc").value);
     var fl = pFloat(document.getElementById("fl").value);
@@ -78,9 +85,32 @@ function fpdc(){
         document.getElementById("messaggioErroreLente").removeAttribute("class");
     } else return;
     
+    if (!isNaN(cc) && !isNaN(fl)) {
+        grafico([calcIper(fl,1,cc),
+            calcIper(fl,1.4,cc),
+            calcIper(fl,2,cc),
+            calcIper(fl,2.8,cc),
+            calcIper(fl,4,cc),
+            calcIper(fl,5.6,cc),
+            calcIper(fl,8,cc),
+            calcIper(fl,11,cc),
+            calcIper(fl,16,cc),
+            calcIper(fl,22,cc)],
+            [calcMessaFuocoMinIper(calcIper(fl,1,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,1.4,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,2,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,2.8,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,4,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,5.6,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,8,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,11,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,16,cc),fl),
+            calcMessaFuocoMinIper(calcIper(fl,22,cc),fl)]);
+    }
+    
     if (isNaN(cc) || isNaN(fl) || isNaN(fn) || isNaN(dmf)) return;
     
-    var iper = fl*fl/(fn*cc)+fl/1000;
+    var iper = calcIper(fl,fn,cc);
     var mfm = (iper-fl/1000)*dmf/(iper+dmf-2*fl/1000);
     var mfM = (dmf >= iper? "Infinito" : (iper-fl/1000)*dmf/(iper-dmf));
     
@@ -175,7 +205,7 @@ function fsd(){
         document.getElementById("alte").value = arrotonda(altezza,2);
         document.getElementById("diag").value = arrotonda(diagonale,2);
         document.getElementById("area").value = arrotonda(area,1);
-        document.getElementById("crop").value = arrotonda(crop,2) + "⨯";
+        document.getElementById("crop").value = arrotonda(crop,2) + "?";
         aggiornaCanvas(base, altezza);
     } else {
         aggiornaCanvas(0, 0);
@@ -183,7 +213,7 @@ function fsd(){
     if (hoCalcolatoDens) {
         document.getElementById("pix").value = arrotonda(pix,2);
         document.getElementById("mp").value = arrotonda(mp,1);
-        document.getElementById("diff").value = "ƒ" + arrotonda(diff,1);
+        document.getElementById("diff").value = "�" + arrotonda(diff,1);
     }
     
     if (!erroreFormSensore) {
@@ -231,18 +261,66 @@ function aggiornaCanvas(base, altezza) {
     var canvas = document.getElementById('sensore');
     var ctx = canvas.getContext('2d');
     
+    if (base>0) {
+        $("#spaziatura").removeClass('hidden'); 
+        $("#sensore").removeClass('hidden');
+    }
+    
     $("#sensore").animate({
         width: Math.round(base*DPI/25.4),
         height: Math.round(altezza*DPI/25.4)
         }, "slow", function(){
-            canvas.style.boxShadow =("0px 0px " + Math.sqrt(base*base+altezza*altezza)/3 + "px");
+            canvas.style.boxShadow = "0px 0px " + Math.sqrt(base*base+altezza*altezza)/3 + "px";
+            if (!base>0) {
+                $("#spaziatura").addClass('hidden');
+                $("#sensore").addClass('hidden');
+            }
         });
+    
     /*canvas.style.width = Math.round(base*DPI/25.4) + "px";
     canvas.style.height = Math.round(altezza*DPI/25.4) + "px";
     canvas.width = Math.round(base*DPI/25.4);
     canvas.height = Math.round(altezza*DPI/25.4);*/
     //ctx.fillStyle = "#2255aa";
     //ctx.fillRect(0,0,canvas.width, canvas.height);
+}
+
+function applicaObbiettivo() {
+    document.getElementById("fl").value = document.getElementById("fn").value = "";
+    var preset = document.getElementById("obbiettivo").selectedIndex;
+    if (preset === 0) {return;}
+    document.getElementById("fl").value = $('#obbiettivo option:selected').attr('lmin');
+    document.getElementById("fn").value = $('#obbiettivo option:selected').attr('f');
+    fpdc();
+}
+
+function grafico(iperfocali, aFuocoDa){
+    $("#grafico").removeClass('hidden');
+    var diaframmi = [1, 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
+                            
+    var ctx = document.getElementById("grafico");
+    
+    myChart = new Chart(ctx, {
+        type: 'line',
+        options: {
+            title: {
+                display: true,
+                text: "@lang('str.if')",
+                fontSize: 20,
+            },
+            legend: {
+                display: true,
+                position: 'top',
+            },
+        },
+        data: {
+            labels: diaframmi,
+            datasets: [
+                {label: "@lang('str.if')", borderColor: "#fffa99", backgroundColor: 'rgba(220,210,40,0.3)', data: iperfocali},
+                {label: "@lang('str.aFuocoDa')", borderColor: "#ffaa33", backgroundColor: 'rgba(220,100,0,0.3)', data: aFuocoDa},
+            ]
+        }
+    });
 }
 </script>
 <div class="container">
@@ -256,7 +334,7 @@ function aggiornaCanvas(base, altezza) {
                     <div class="table-responsive">
                         <table class="table table-responsive">
                             <thead>
-                                <th>@lang('str.circolo') (μm)</th>
+                                <th>@lang('str.circolo') (?m)</th>
                                 <th>@lang('str.focale') (mm)</th>
                                 <th>@lang('str.apertura')</th>
                                 <th>@lang('str.distMF')</th>
@@ -279,8 +357,25 @@ function aggiornaCanvas(base, altezza) {
                     </div>
                     <p id="messaggioErroreLente"></p>
                     <div class="row">
-                        <div class="col col-md-3 col-md-offset-9">
+                        <div class="col col-md-5">
+                            <select class="form-control" name="obbiettivo" id="obbiettivo" onchange="applicaObbiettivo()">
+                                <option value="default" selected></option>
+                                @foreach ($obbiettivi as $obbiettivo)
+                                <option lmin="{{$obbiettivo->LMin}}" f="{{$obbiettivo->F}}">{{ $obbiettivo->{'Nome Completo'} }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-0 col-xs-12"> </div>
+                        <div class="col col-md-3 col-md-offset-4">
                             <button class="btn btn-info btn-large btn-block" onclick="resetPdC()">@lang('str.ripulisci')</button>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row" id="graficoContainer">
+                            <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12" id="graficoContainer">
+                                <canvas id="grafico" class="hidden"></canvas>
+                                <script src="{{ route("home") }}/js/chart.min.js"></script>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -299,13 +394,13 @@ function aggiornaCanvas(base, altezza) {
                         <table class="table table-responsive">
                             <thead>
                                 <th>@lang('str.dimensione')</th>
-                                <th>@lang('str.dimensionePixel') (μm)</th>
+                                <th>@lang('str.dimensionePixel') (?m)</th>
                                 <th>@lang('str.mp')</th>
                                 <th>@lang('str.formato')</th>
                                 <th>@lang('str.larghezza') (mm)</th>
                                 <th>@lang('str.altezza') (mm)</th>
                                 <th>@lang('str.diagonale') (mm)</th>
-                                <th>Area (mm²)</th>
+                                <th>Area (mm�)</th>
                                 <th>@lang('str.fattoreCrop')</th>
                                 <th>@lang('str.diffrazioneVerde')</th>
                             </thead>
@@ -350,14 +445,18 @@ function aggiornaCanvas(base, altezza) {
                             <button class="btn btn-info btn-large btn-block" onclick="resetSensore()">@lang('str.ripulisci')</button>
                         </div>
                     </div>
+                    <div class="row text-center">
+                        <br id="spaziatura" class="hidden">
+                        <canvas id="sensore" width="0" height="0" class="hidden" style="background: url('./img/sensore.jpg'); background-size: cover;"></canvas>
+                    </div>
                 </form>
             </div>
         </div>
         <br>
-        <div class="row text-center">
-            <canvas id="sensore" width="0" height="0" style="background: url('./img/sensore.jpg'); background-size: cover;"></canvas>
-        </div>
-        <br>
     </div>
 </div>
+<script>
+$("#grafico").width($("#graficoContainer").width());
+$("#grafico").height($("#graficoContainer").width());
+</script>
 @endsection

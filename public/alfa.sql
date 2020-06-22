@@ -185,18 +185,19 @@ INSERT INTO `obbiettivi` (`ID`, `Nome Completo`, `LMin`, `LMax`, `F`, `FLMax`, `
 (63, 'Samyang 50mm F1.2 ED UMC CS', 50.0, 50.0, 1.2, 0.0, '****', 'Samyang', 'ED UMC CS', 0),
 (64, 'Zonlai 50mm F1.4', 50.0, 50.0, 1.4, 0.0, '**', 'Zonlai', '', 0),
 (65, 'Sony 50mm F1.8 OSS', 50.0, 50.0, 1.8, 0.0, '**', 'Sony', 'OSS', 1),
-(66, '7Artisans 50mm F1.8', 50.0, 50.0, 1.8, 0.0, '***', '7Artisans', NULL, 0),
-(67, 'Meike 50mm F2', 50.0, 50.0, 2.0, 0.0, '', 'Meike', '', 0),
-(68, 'Zeiss 50mm F2.8 Touit', 50.0, 50.0, 2.8, 0.0, '***', 'Zeiss', 'Touit', 0),
-(69, '7Artians 55mm F1.4', 55.0, 55.0, 1.4, 0.0, '**', '7Artians', '', 0),
-(70, 'Sony 55-210mm OSS', 55.0, 210.0, 4.5, 6.3, '*', 'Sony', 'OSS', 1),
-(71, 'Sigma 56mm F1.4 DC DN Contemporary', 56.0, 56.0, 1.4, 0.0, '*****', 'Sigma', 'DC DN', 0),
-(72, '7Artisans 60mm F2.8 Macro', 60.0, 60.0, 2.8, 0.0, '**', '7Artisans', 'Macro', 0),
-(73, 'Sigma 60mm F2.8 DN', 60.0, 60.0, 2.8, 0.0, '***', 'Sigma', 'DN', 0),
-(74, 'Laowa CF 65mm F2.8 CA Dreamer X2 Macro', 65.0, 65.0, 2.8, 0.0, '****', 'Laowa', '65mm F2.8 CA\nDreamer', 0),
-(75, 'Sony E 70-350 F4.5-6.3 G OSS', 70.0, 350.0, 4.5, 6.3, '****', 'Sony', 'G OSS', 1),
-(76, 'Samyang 85mm F1.8 ED UMC CS', 85.0, 85.0, 1.8, 0.0, '****', 'Samyang', 'ED UMC CS', 0),
-(77, 'Samyang 300mm F6.3', 300.0, 300.0, 6.3, 0.0, '*', 'Samyang', 'MirrorLens', 0);
+(66, 'Yongnuo 50mm F1.8', 50.0, 50.0, 1.8, 0.0, '***', 'Yongnuo', NULL, 0),
+(67, '7Artisans 50mm F1.8', 50.0, 50.0, 1.8, 0.0, '***', '7Artisans', NULL, 0),
+(68, 'Meike 50mm F2', 50.0, 50.0, 2.0, 0.0, '', 'Meike', '', 0),
+(69, 'Zeiss 50mm F2.8 Touit', 50.0, 50.0, 2.8, 0.0, '***', 'Zeiss', 'Touit', 0),
+(70, '7Artians 55mm F1.4', 55.0, 55.0, 1.4, 0.0, '**', '7Artians', '', 0),
+(71, 'Sony 55-210mm OSS', 55.0, 210.0, 4.5, 6.3, '*', 'Sony', 'OSS', 1),
+(72, 'Sigma 56mm F1.4 DC DN Contemporary', 56.0, 56.0, 1.4, 0.0, '*****', 'Sigma', 'DC DN', 0),
+(73, '7Artisans 60mm F2.8 Macro', 60.0, 60.0, 2.8, 0.0, '**', '7Artisans', 'Macro', 0),
+(74, 'Sigma 60mm F2.8 DN', 60.0, 60.0, 2.8, 0.0, '***', 'Sigma', 'DN', 0),
+(75, 'Laowa CF 65mm F2.8 CA Dreamer X2 Macro', 65.0, 65.0, 2.8, 0.0, '****', 'Laowa', '65mm F2.8 CA\nDreamer', 0),
+(76, 'Sony E 70-350 F4.5-6.3 G OSS', 70.0, 350.0, 4.5, 6.3, '****', 'Sony', 'G OSS', 1),
+(77, 'Samyang 85mm F1.8 ED UMC CS', 85.0, 85.0, 1.8, 0.0, '****', 'Samyang', 'ED UMC CS', 0),
+(78, 'Samyang 300mm F6.3', 300.0, 300.0, 6.3, 0.0, '*', 'Samyang', 'MirrorLens', 0);
 
 -- --------------------------------------------------------
 
