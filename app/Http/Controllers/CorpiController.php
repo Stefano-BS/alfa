@@ -10,10 +10,8 @@ use App\Corpo;
 class CorpiController extends Controller {
     
     public function tabella(Request $request, $modifica = false){
-        session_start();
         $modifica = $modifica == "modifica";
         $db = new DB();
-        $admin = false;
         $elencoAttributi = ['ID' => "",'Nome' => "checked",'Data' => "checked",'MSRP' => "checked",'Materiale' => "checked",'Risoluzione' => "",'Formato' => "",'MaxISO' => "checked",'MaxISOExt' => "",'OSS' => "checked",'AF' => "checked",'Schermo' => "",'Mirino' => "checked",'Touch' => "",'MaxSS' => "",'Flash' => "",'FPS' => "checked",'QHD' => "checked",'FHD' => "checked",'CIPA' => "checked",'Peso' => ""];
         
         if ($request->method() == "POST") {
@@ -42,42 +40,32 @@ class CorpiController extends Controller {
         }
         
         $elenco = $db->elencoCorpi();
-        
-        if(isset($_SESSION['logged'])) {
-            $admin = $_SESSION["admin"];
-            return view('corpi')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('modifica',$modifica)->with('elenco', $elenco)->with('elencoAttributi', $elencoAttributi);
-        } else {
-            return view('corpi')->with('logged',false)->with('modifica',$modifica)->with('elenco', $elenco)->with('elencoAttributi', $elencoAttributi);
-        }
+        return view('corpi')->with('modifica',$modifica)->with('elenco', $elenco)->with('elencoAttributi', $elencoAttributi);
     }
     
     public function pagina($corpo, $modifica) {
-        session_start();
-        $logged = false; $loggedName = false; $admin = false; $giaDes = false; $giaPos = false;
-        if (isset($_SESSION['logged'])) {$logged = $_SESSION['logged'];}
-        if (isset($_SESSION['loggedName'])) {$loggedName = $_SESSION['loggedName'];}
-        if (isset($_SESSION['admin'])) {$admin = $_SESSION['admin'];}
+        $giaDes = false; $giaPos = false;
         $corpo = Corpo::find($corpo);
         if (empty($corpo)) {
             return Redirect::back();
         }
-        if (isset($_SESSION['idUtente'])) {
+        if (auth()->check()) {
             $db = new DB();
-            $desideri = $db->elencoDesideriCorpo($_SESSION['idUtente']);
+            $desideri = $db->elencoDesideriCorpo(auth()->user()->id);
             foreach ($desideri as $desiderio) {
                 if ($desiderio->ID == $corpo->ID) {$giaDes = true; break;}
             }
-            $possessi = $db->elencoPossessiCorpo($_SESSION['idUtente']);
+            $possessi = $db->elencoPossessiCorpo(auth()->user()->id);
             foreach ($possessi as $possesso) {
-            if ($possesso->ID == $corpo->ID) {$giaPos = true; break;}
+                if ($possesso->ID == $corpo->ID) {$giaPos = true; break;}
             }
         }
-        return view('modificaCorpo')->with('logged',$logged)->with('loggedName', $loggedName)->with('corpo',$corpo)->with('admin', $admin)->with('modifica', $modifica)->with('giaDes',$giaDes)->with('giaPos',$giaPos);
+        return view('modificaCorpo')->with('corpo',$corpo)->with('modifica', $modifica)
+                ->with('giaDes',$giaDes)->with('giaPos',$giaPos);
     }
     
     public function eseguiModifica(Request $request) {
-        session_start();
-        if(isset($_SESSION['logged']) && $_SESSION["admin"]==true) {
+        if(auth()->check() && auth()->user()->permessi) {
             $db = new DB();
             $db->modificaCorpo($request->input("id"), ['Nome' => $request->input('nome'),
                 'Data' => $request->input('data'),'MSRP' => $request->input('msrp'),'Materiale' => $request->input('materiale'),
@@ -91,5 +79,12 @@ class CorpiController extends Controller {
         } else {
             return Redirect::to(route('home'));
         }
+    }
+    
+    public function univoco($id, $corpo) {
+        $risposta = count(Corpo::where([
+            ['Nome', $corpo],
+            ['ID', "!=", $id]])->get());
+        return response($risposta);
     }
 }

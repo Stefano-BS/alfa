@@ -5,8 +5,7 @@
 @section('barraAccesso')
 <?php
     require_once('barra.php');
-    if (!defined("loggedName")) barra($logged, "", "");
-    else barra($logged, $loggedName, "");
+    barra("");
 ?>
 @endsection
 
@@ -205,7 +204,7 @@ function fsd(){
         document.getElementById("alte").value = arrotonda(altezza,2);
         document.getElementById("diag").value = arrotonda(diagonale,2);
         document.getElementById("area").value = arrotonda(area,1);
-        document.getElementById("crop").value = arrotonda(crop,2) + "?";
+        document.getElementById("crop").value = arrotonda(crop,2) + "⨯";
         aggiornaCanvas(base, altezza);
     } else {
         aggiornaCanvas(0, 0);
@@ -213,7 +212,7 @@ function fsd(){
     if (hoCalcolatoDens) {
         document.getElementById("pix").value = arrotonda(pix,2);
         document.getElementById("mp").value = arrotonda(mp,1);
-        document.getElementById("diff").value = "�" + arrotonda(diff,1);
+        document.getElementById("diff").value = "ƒ" + arrotonda(diff,1);
     }
     
     if (!erroreFormSensore) {
@@ -334,7 +333,7 @@ function grafico(iperfocali, aFuocoDa){
                     <div class="table-responsive">
                         <table class="table table-responsive">
                             <thead>
-                                <th>@lang('str.circolo') (?m)</th>
+                                <th>@lang('str.circolo') (μm)</th>
                                 <th>@lang('str.focale') (mm)</th>
                                 <th>@lang('str.apertura')</th>
                                 <th>@lang('str.distMF')</th>
@@ -374,7 +373,7 @@ function grafico(iperfocali, aFuocoDa){
                         <div class="row" id="graficoContainer">
                             <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12" id="graficoContainer">
                                 <canvas id="grafico" class="hidden"></canvas>
-                                <script src="{{ route("home") }}/js/chart.min.js"></script>
+                                <script src="{{ route("/") }}/js/chart.min.js"></script>
                             </div>
                         </div>
                     </div>
@@ -394,13 +393,13 @@ function grafico(iperfocali, aFuocoDa){
                         <table class="table table-responsive">
                             <thead>
                                 <th>@lang('str.dimensione')</th>
-                                <th>@lang('str.dimensionePixel') (?m)</th>
+                                <th>@lang('str.dimensionePixel') (μm)</th>
                                 <th>@lang('str.mp')</th>
                                 <th>@lang('str.formato')</th>
                                 <th>@lang('str.larghezza') (mm)</th>
                                 <th>@lang('str.altezza') (mm)</th>
                                 <th>@lang('str.diagonale') (mm)</th>
-                                <th>Area (mm�)</th>
+                                <th>Area (mm²)</th>
                                 <th>@lang('str.fattoreCrop')</th>
                                 <th>@lang('str.diffrazioneVerde')</th>
                             </thead>

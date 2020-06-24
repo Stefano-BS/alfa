@@ -9,7 +9,10 @@ use App;
 class Lingua {
     
     public function handle($request, Closure $next) {
-        if (Session::has('lingua')) {
+        if (auth()->check()) {
+            Session::put('lingua', auth()->user()->lingua);
+            App::setLocale(Session::get('lingua'));
+        } else if (Session::has('lingua')) {
             App::setLocale(Session::get('lingua'));
         }
         

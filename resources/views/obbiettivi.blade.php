@@ -5,8 +5,7 @@
 @section('barraAccesso')
 <?php
     require_once('barra.php');
-    if (!defined("loggedName")) barra($logged, "", "");
-    else barra($logged, $loggedName, "");
+    barra("");
 ?>
 @endsection
 
@@ -127,7 +126,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6 col-xs-12 col-md-offset-3">
-                                        <input type="submit" name="select-submit" class="form-control btn btn-danger" value="Applica">
+                                        <input type="submit" name="select-submit" class="form-control btn btn-danger" value="@lang('str.applica')">
                                     </div>
                                 </div>
                             </div>
@@ -233,10 +232,6 @@
                             @endif
                         </td>
                         @endif
-                        <!--@if ($admin && $modifica)
-                        <td><a class="btn btn-default" href="{{ route('modificaObbiettivo', ['obbiettivo' => $obbiettivo->ID, 'modifica' => ($modifica? "modifica" : "visualizza")]) }}">
-                        <span class="glyphicon glyphicon-pencil"></span></a></td>
-                        @endif-->
                     </tr>
                     @endforeach
                 </tbody>

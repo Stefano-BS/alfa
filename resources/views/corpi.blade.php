@@ -5,8 +5,7 @@
 @section('barraAccesso')
 <?php
     require_once('barra.php');
-    if (!defined("loggedName")) barra($logged, "", "");
-    else barra($logged, $loggedName, "");
+    barra("");
 ?>
 @endsection
 

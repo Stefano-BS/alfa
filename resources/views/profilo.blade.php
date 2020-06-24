@@ -1,16 +1,15 @@
 @extends('layout.master')
 
-@if ($logged)
-@section('titolo',$loggedName)
+@auth
+@section('titolo',auth()->user()->name)
 @else
 @section('titolo','Alfa')
-@endif
+@endauth
 
 @section('barraAccesso')
 <?php
     require_once('barra.php');
-    if (!defined("loggedName")) barra($logged, "", "");
-    else barra($logged, $loggedName, "");
+    barra("class='active'");
 ?>
 @endsection
 
@@ -20,11 +19,12 @@
         <div class="col-md-8 col-md-offset-2">
             <header class='text-center'>
                 <br>
-                @if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/laravel/public/utenti/" . $loggedName))
-                    <img id="imProfilo" onclick="window.location='{{route('home')}}/utenti/{{$loggedName}}'" src='{{route('home')}}/utenti/{{$loggedName}}' class='img-circle' style="box-shadow: 0px 0px 30px;"/>
+                @if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/laravel/public/utenti/" . auth()->user()->email))
+                    <img id="imProfilo" onclick="window.location='{{route('/')}}/utenti/{{auth()->user()->email}}'" src='{{route('/')}}/utenti/{{auth()->user()->email}}' class='img-circle' style="box-shadow: 0px 0px 30px;"/>
                     <script>$("#imProfilo").fadeOut(0);</script>
                 @endif
-                <h1 align="center" style="word-wrap: break-word; text-shadow: 0px 0px 10px rgba(0,0,0,0.4); color: rgb(32,0,0);">{{ $loggedName }}</h1>
+                <h1 align="center" style="word-wrap: break-word; text-shadow: 0px 0px 10px rgba(0,0,0,0.4); color: rgb(32,0,0);">
+                    {{ auth()->user()->name }}</h1>
                 <br>
             </header>
             <div class="panel-group">
@@ -52,7 +52,7 @@
                                     </div>
                                     <div class='col-sm-4 selectLingua'>
                                         <select name="lingua" id="lingua" class="form-control"
-                                        onchange="location.href = '{{route('paginaUtente', ['utente' => $loggedName])}}/cambialingua/' + document.getElementById('lingua').value;">
+                                        onchange="location.href = '{{route('paginaUtente', ['utente' => auth()->user()->email])}}/cambialingua/' + document.getElementById('lingua').value;">
                                             <option value="en" @if ($lingua == 'en') selected @endif>🇬🇧  English</option>
                                             <option value="it" @if ($lingua == 'it') selected @endif>🇮🇹  Italiano</option>
                                         </select>
@@ -60,8 +60,9 @@
                                 </div>
                             </form>
                         </div>
-                        @if ($admin)
+                        @if (auth()->user()->permessi)
                         <br>
+                        <hr>
                         <div class="row">
                             <div class="col-md-6 col-xs-12">
                                 <a href="{{ route('obbiettivi', ['modifica' => "modifica"]) }}" class="btn btn-warning btn-large btn-block">
@@ -89,12 +90,12 @@
                             @foreach ($desideriCorpo as $desiderio)
                             <tr>
                                 <td onclick="window.location.href = '{{ route('modificaCorpo', ['corpo' => $desiderio->ID, 'modifica' => 'visualizza']) }}';">Sony {{$desiderio->Nome}}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$desiderio->Nome}}', '{{route('rimozioneDesiderioCorpo', ['utente' => $loggedName, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$desiderio->Nome}}', '{{route('rimozioneDesiderioCorpo', ['utente' => auth()->user()->email, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @foreach ($desideri as $desiderio)
                             <tr>
                                 <td onclick="window.location.href = '{{ route('modificaObbiettivo', ['obbiettivo' => $desiderio->ID, 'modifica' => 'visualizza']) }}';">{{$desiderio->{'Nome Completo'} }}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$desiderio->{'Nome Completo'} }}', '{{route('rimozioneDesiderioObbiettivo', ['utente' => $loggedName, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$desiderio->{'Nome Completo'} }}', '{{route('rimozioneDesiderioObbiettivo', ['utente' => auth()->user()->email, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @endif
                         </table>
@@ -113,12 +114,12 @@
                             @foreach ($possessiCorpo as $possesso)
                             <tr>
                                 <td onclick="window.location.href = '{{ route('modificaCorpo', ['corpo' => $possesso->ID, 'modifica' => 'visualizza']) }}';">Sony {{$possesso->Nome}}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$possesso->Nome}}', '{{route('rimozionePossessoCorpo', ['utente' => $loggedName, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$possesso->Nome}}', '{{route('rimozionePossessoCorpo', ['utente' => auth()->user()->email, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @foreach ($possessi as $possesso)
                             <tr>
                                 <td onclick="window.location.href = '{{ route('modificaObbiettivo', ['obbiettivo' => $possesso->ID, 'modifica' => 'visualizza']) }}';">{{$possesso->{'Nome Completo'} }}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$possesso->{'Nome Completo'} }}', '{{route('rimozionePossessoObbiettivo', ['utente' => $loggedName, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$possesso->{'Nome Completo'} }}', '{{route('rimozionePossessoObbiettivo', ['utente' => auth()->user()->email, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @endif
                         </table>
@@ -160,6 +161,7 @@ function eliminazione(event, nome, link) {
 img = document.getElementById("imProfilo");
 img.setAttribute("width","50%");
 img.setAttribute("height", img.parentNode.offsetWidth/2);
+img.setAttribute("width", img.height);
 $("#imProfilo").fadeIn(1000);
 </script>
 @endsection

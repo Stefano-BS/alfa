@@ -5,14 +5,14 @@
         <title>@yield('titolo')</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"-->
-        <link rel="stylesheet" href="{{ route('home') }}/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{{ route('home') }}/css/stile.css">
-        <link rel="shortcut icon" type="image/x-icon" href="{{ route('home') }}/favicon.ico"/>
+        <link rel="stylesheet" href="{{ route('/') }}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ route('/') }}/css/stile.css">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ route('/') }}/favicon.ico"/>
         <!--script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script-->
         <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="{{ route('home') }}/js/bootstrap.min.js"></script>
+        <script src="{{ route('/') }}/js/bootstrap.min.js"></script>
     </head>
     <body>
         <nav class="navbar-default navbar-fixed-top" id='navbar'>

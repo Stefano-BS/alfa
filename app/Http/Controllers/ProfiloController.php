@@ -8,20 +8,28 @@ use Session;
 class ProfiloController extends Controller
 {
     public function profilo($utente){
-        session_start();
-        if(isset($_SESSION['logged'])) {
-            if ($utente !== $_SESSION['loggedName']) {
-                return Redirect::to(route('home'));
-            }
-            $db = new DB();
-            
-            return view('profilo')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('admin', $_SESSION['admin'])->with('lingua', Session::get('lingua'))
-                    ->with('desideri',$db->elencoDesideriObbiettivo($_SESSION['idUtente']))->with('possessi',$db->elencoPossessiObbiettivo($_SESSION['idUtente']))
-                    ->with('desideriCorpo',$db->elencoDesideriCorpo($_SESSION['idUtente']))->with('possessiCorpo',$db->elencoPossessiCorpo($_SESSION['idUtente']));
-        } else {
+        if (auth()->guest() or auth()->user()->email !== $utente) {
             return Redirect::to(route('home'));
         }
+        $db = new DB();
+        return view('profilo')->with('lingua', Session::get('lingua'))
+                    ->with('desideri',$db->elencoDesideriObbiettivo(auth()->user()->id))->with('possessi',$db->elencoPossessiObbiettivo(auth()->user()->id))
+                    ->with('desideriCorpo',$db->elencoDesideriCorpo(auth()->user()->id))->with('possessiCorpo',$db->elencoPossessiCorpo(auth()->user()->id));
+//        session_start();
+//        if(isset($_SESSION['logged'])) {
+//            if ($utente !== $_SESSION['loggedName']) {
+//                return Redirect::to(route('home'));
+//            }
+//            $db = new DB();
+//            
+//            return view('profilo')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('admin', $_SESSION['admin'])->with('lingua', Session::get('lingua'))
+//                    ->with('desideri',$db->elencoDesideriObbiettivo($_SESSION['idUtente']))->with('possessi',$db->elencoPossessiObbiettivo($_SESSION['idUtente']))
+//                    ->with('desideriCorpo',$db->elencoDesideriCorpo($_SESSION['idUtente']))->with('possessiCorpo',$db->elencoPossessiCorpo($_SESSION['idUtente']));
+//        } else {
+//            return Redirect::to(route('home'));
+//        }
     }
+    
     public function rimozionePossessoObbiettivo($utente, $id){return $this->azione($utente, $id, 1);}
     public function rimozioneDesiderioObbiettivo($utente, $id){return $this->azione($utente, $id, 0);}
     public function aggiuntaPossessoObbiettivo($utente, $id){return $this->azione($utente, $id, 2);}
@@ -32,40 +40,37 @@ class ProfiloController extends Controller
     public function aggiuntaDesiderioCorpo($utente, $id){return $this->azione($utente, $id, 7);}
     
     function azione($utente, $articolo, $modo){
-        session_start();
-        if(isset($_SESSION['logged'])) {
-            if ($utente !== $_SESSION['loggedName']) {
-                return Redirect::to(route('home'));
-            }
-            if ($modo == 0) {
-                (new DB())->rimuoviDesiderioObbiettivo($_SESSION['idUtente'], $articolo);
-            } elseif ($modo == 1) {
-                (new DB())->rimuoviPossessoObbiettivo($_SESSION['idUtente'], $articolo);
-            } elseif ($modo == 2) {
-                (new DB())->aggiungiPossessoObbiettivo($_SESSION['idUtente'], $articolo);
-            } elseif ($modo == 3) {
-                (new DB())->aggiungiDesiderioObbiettivo($_SESSION['idUtente'], $articolo);
-            } elseif ($modo == 4) {
-                (new DB())->rimuoviDesiderioCorpo($_SESSION['idUtente'], $articolo);
-            } elseif ($modo == 5) {
-                (new DB())->rimuoviPossessoCorpo($_SESSION['idUtente'], $articolo);
-            } elseif ($modo == 6) {
-                (new DB())->aggiungiPossessoCorpo($_SESSION['idUtente'], $articolo);
-            } elseif ($modo == 7) {
-                (new DB())->aggiungiDesiderioCorpo($_SESSION['idUtente'], $articolo);
-            }
-            return Redirect::to(route('paginaUtente', ['utente' => $_SESSION['loggedName']]));
-        } else {
+        if(auth()->guest() or auth()->user()->email !== $utente) {
             return Redirect::to(route('home'));
         }
+        if ($modo == 0) {
+            (new DB())->rimuoviDesiderioObbiettivo(auth()->user()->id, $articolo);
+        } elseif ($modo == 1) {
+            (new DB())->rimuoviPossessoObbiettivo(auth()->user()->id, $articolo);
+        } elseif ($modo == 2) {
+            (new DB())->aggiungiPossessoObbiettivo(auth()->user()->id, $articolo);
+        } elseif ($modo == 3) {
+            (new DB())->aggiungiDesiderioObbiettivo(auth()->user()->id, $articolo);
+        } elseif ($modo == 4) {
+            (new DB())->rimuoviDesiderioCorpo(auth()->user()->id, $articolo);
+        } elseif ($modo == 5) {
+            (new DB())->rimuoviPossessoCorpo(auth()->user()->id, $articolo);
+        } elseif ($modo == 6) {
+            (new DB())->aggiungiPossessoCorpo(auth()->user()->id, $articolo);
+        } elseif ($modo == 7) {
+            (new DB())->aggiungiDesiderioCorpo(auth()->user()->id, $articolo);
+        }
+        return Redirect::to(route('paginaUtente', auth()->user()->email));
     }
     
     public function cambiaLingua($utente, $lingua){
+        if ($utente !== auth()->user()->email) {
+            return Redirect::back();
+        }
         Session::put('lingua', $lingua);
         $db = new DB();
-        session_start();
-        $db->cambiaLingua($_SESSION['idUtente'], $lingua);
-        return Redirect::back();//Redirect::to(route('paginaUtente',['utente' => $utente]));
+        $db->cambiaLingua(auth()->user()->id, $lingua);
+        return Redirect::back();
     }
     
     public function cambiaImmagine(Request $request, $utente){

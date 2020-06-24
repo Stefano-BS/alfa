@@ -5,8 +5,7 @@
 @section('barraAccesso')
 <?php
     require_once('barra.php');
-    if (!defined("loggedName")) barra($logged, "", "");
-    else barra($logged, $loggedName, "");
+    barra("");
 ?>
 @endsection
 
@@ -22,7 +21,7 @@
             </header>
         </div>
     </div>
-@if ($admin && $modifica == "modifica")
+@if (auth()->check() && auth()->user()->permessi && $modifica == "modifica")
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading text-center">
@@ -74,8 +73,10 @@
                             <input type="text" name="cipa" id="cipa" class="form-control" value="{{$corpo->CIPA}}"></div></div>
                         <div class="form-group row"><label for="peso" class="col-sm-4 col-form-label">@lang('str.peso'): </label><div class="col-sm-8">
                             <input type="text" name="peso" id="peso" class="form-control" value="{{$corpo->Peso}}"></div></div>
-                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"><br>
+                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"
+                            onclick="event.preventDefault(); validazione();"><br>
                     </form>
+                    <p id="messaggio-errore"></p>
                 </div>
             </div>
         </div>
@@ -97,7 +98,7 @@
                     <label class='col-sm-12'><h4>@lang('str.ISOext'): {{$corpo->MaxISOExt}}</h4></label>
                     <label class="col-sm-12"><h4>@lang('str.punti') AF: {{$corpo->AF}}</h4></label>
                     <label class="col-sm-12"><h4>@lang('str.punti') @lang('str.schermo'): {{$corpo->Schermo}}</h4></label>
-                    <label class="col-sm-12"><h4>@lang('str.punti') @lang('str.mirino'): @if($corpo->Mirino > 0) {{$corpo->Mirino}}p @else <span class="label label-danger">✖</span> @endif </h4></label>
+                    <label class="col-sm-12"><h4>@lang('str.punti') @lang('str.mirino'): @if($corpo->Mirino > 0) {{$corpo->Mirino}} @else <span class="label label-danger">✖</span> @endif </h4></label>
                     <label class="col-sm-12"><h4>@lang('str.tempoOtturatore'): 1/{{$corpo->MaxSS}}s</h4></label>
                     <label class="col-sm-12"><h4>@lang('str.registra') Full HD: {{$corpo->FHD}}p</h4></label>
                     <label class="col-sm-12"><h4>@lang('str.registra') 4K: @if($corpo->QHD > 0) {{$corpo->QHD}}p @else <span class="label label-danger">✖</span> @endif </h4></label>
@@ -115,41 +116,87 @@
                     <strong>@lang('str.azioni')</strong>
                 </div>
                 <div class="panel-body">
-                    @if ($logged)
+                    @auth
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
-                            <button {{$giaPos?"disabled":""}} onclick="window.location = '{{ route('aggiuntaPossessoCorpo', ['utente' => $loggedName, 'id' => $corpo->ID])}}';" class="btn btn-success btn-large btn-block"><span class="glyphicon glyphicon-check"> </span>  @lang('str.loPossiedo')</button>
+                            <button {{$giaPos?"disabled":""}} onclick="window.location = '{{ route('aggiuntaPossessoCorpo', ['utente' => auth()->user()->email, 'id' => $corpo->ID])}}';" class="btn btn-success btn-large btn-block"><span class="glyphicon glyphicon-check"> </span>  @lang('str.loPossiedo')</button>
                         </div>
                         <div class="col-md-0 col-xs-12"> </div>
                         <div class="col-md-6 col-xs-12">
-                            <button {{$giaDes?"disabled":""}} onclick="window.location = '{{ route('aggiuntaDesiderioCorpo', ['utente' => $loggedName, 'id' => $corpo->ID])}}';" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-heart"> </span>  @lang('str.loDesidero')</button>
+                            <button {{$giaDes?"disabled":""}} onclick="window.location = '{{ route('aggiuntaDesiderioCorpo', ['utente' => auth()->user()->email, 'id' => $corpo->ID])}}';" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-heart"> </span>  @lang('str.loDesidero')</button>
                         </div>
                     </div>
                     <hr>
-                    @endif
+                    @endauth
                     <center>
                     <h4>@lang('str.acquista')</h4>
                     <a href="https://www.facebook.com/marketplace/search/?query=<?php echo str_replace([" ","α"], ["%20","a"], $corpo->Nome); ?>">
-                        <img src="{{route('home')}}/img/facebook.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/facebook.png" width="13%"></a>
                     <a href="https://www.subito.it/annunci-italia/vendita/usato/?q=<?php echo str_replace([" ","α"], ["+","a"], $corpo->Nome); ?>">
-                        <img src="{{route('home')}}/img/subito.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/subito.png" width="13%"></a>
                     <a href="https://www.amazon.it/s?k=<?php echo str_replace([" ","α"], ["+","a"], $corpo->Nome); ?>">
-                        <img src="{{route('home')}}/img/amazon.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/amazon.png" width="13%"></a>
                     <a href="https://www.ebay.it/sch/i.html?_kw=<?php echo str_replace([" ","α"], ["+","a"], $corpo->Nome); ?>">
-                        <img src="{{route('home')}}/img/ebay.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/ebay.png" width="13%"></a>
                     <a href="https://www.e-infin.com/eu/search/<?php echo str_replace([" ","α"], ["%20","a"], $corpo->Nome); ?>">
-                        <img src="{{route('home')}}/img/infin.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/infin.png" width="13%"></a>
                     <a href="https://www.eglobalcentral.co.it/catalogsearch/result/?cat=&q=<?php echo str_replace([" ","α"], ["%+","a"], $corpo->Nome); ?>">
-                        <img src="{{route('home')}}/img/eglobal.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/eglobal.png" width="13%"></a>
                     <a href="https://www.fotoema.it/ricerca-un-prodotto.html?searchword=<?php echo str_replace([" ","α"], ["+","a"], $corpo->Nome); ?>">
-                        <img src="{{route('home')}}/img/fotoema.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/fotoema.png" width="13%"></a>
                     </center>
                 </div>
             </div>
             <br>
-            <img src ='{{route('home')}}/img/{{$corpo->Nome}}.png' alt="Immagine" class='img-responsive'>
+            <img src ='{{route('/')}}/img/{{$corpo->Nome}}.png' alt="Immagine" class='img-responsive'>
         </div>
     </div>
 @endif 
 </div>
+<script>
+// VALIDAZIONE MODIFICA
+
+function validazione() {
+    var errore = false;
+    var testo = "";
+    var numero =  new RegExp("^([0-9]+(\.[0-9]+)?)$", "g");
+    var intero =  new RegExp("^([0-9]+)$", "g");
+    
+    // Controllo campi nulli
+    var campiNonNullabili = ["#nome", "#data", "#msrp", "#materiale", "#risoluzione", "#formato", "#maxiso", "#maxisoext", "#af", "#cipa", "#peso", "#qhd", "#fhd", "#maxss", "#fps", "#mirino", "#schermo"];
+    for (i=0; i<campiNonNullabili.length; i++)
+        if ($(campiNonNullabili[i])[0].value == "") {
+            testo += "→ {{trans('str.ec1')}} (" + campiNonNullabili[i] + " {{trans('str.ec2')}})<BR>";
+            errore = true;
+            break;
+        };
+    
+    var campiInteri = ["#msrp", "#risoluzione", "#maxiso", "#maxisoext", "#af", "#cipa", "#peso", "#qhd", "#fhd", "#maxss", "#fps", "#mirino", "#schermo"];
+    for (i=0; i<campiInteri.length; i++)
+        if (!$(campiInteri[i])[0].value.match(intero)) {
+            testo += "→ {{trans('str.ec3')}} " + campiInteri[i] + " {{trans('str.ec4')}}<BR>";
+            errore = true;
+        };
+    
+    if (!errore) {
+        var r = new XMLHttpRequest();
+        r.open("GET", '{{route("corpoUnivoco")}}/' + $("#id")[0].value + '/' + $("#nome")[0].value, true);
+        r.setRequestHeader("connection", "close");
+        r.onreadystatechange = function () {
+            if (r.readyState == 4 && r.status == 200) {
+                if (r.responseText <0 || isNaN(r.responseText)) {
+                    document.getElementById("messaggio-errore").innerHTML = '<br><div id="messaggio-errore" class="alert alert-danger text-center">→ {{trans('str.eo11')}}</div>';
+                } else if (r.responseText == 0) {
+                    document.getElementById("mod-obbiettivo").submit();
+                } else {
+                    document.getElementById("messaggio-errore").innerHTML = '<br><div id="messaggio-errore" class="alert alert-danger text-center">→ {{trans('str.ec5')}}</div>';
+                }
+            }
+        };
+        r.send();
+    } else {
+        document.getElementById("messaggio-errore").innerHTML = '<br><div id="messaggio-errore" class="alert alert-danger text-center">' + testo + '</div>';
+    }
+}
+</script>
 @endsection

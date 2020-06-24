@@ -5,8 +5,7 @@
 @section('barraAccesso')
 <?php
     require_once('barra.php');
-    if (!defined("loggedName")) barra($logged, "", "");
-    else barra($logged, $loggedName, "");
+    barra("");
 ?>
 @endsection
 
@@ -22,7 +21,7 @@
             </header>
         </div>
     </div>
-@if ($admin && $modifica == "modifica")
+@if (auth()->check() && auth()->user()->permessi && $modifica == "modifica")
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading text-center">
@@ -52,8 +51,10 @@
                             <input type="text" name="tag" id="tag" class="form-control" value="{{$obbiettivo->TAG}}"></div></div>
                         <div class="form-group row"><label for="oss" class="col-sm-4 col-form-label">@lang('str.stabilizzazione')</label><div class="col-sm-8">
                             <input type="checkbox" name="oss" id="oss"@if($obbiettivo->OSS !==0)checked @endif></div></div>
-                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"><br>
+                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"
+                            onclick="event.preventDefault(); validazione();"><br>
                     </form>
+                    <p id="messaggio-errore"></p>
                 </div>
             </div>
         </div>
@@ -73,7 +74,7 @@
                     }?>
                     </h4></label>
                     @if ($obbiettivo->LMin == $obbiettivo->LMax)
-                        <label class="col-sm-12"><h4>Lunghezza focale: {{ $obbiettivo->LMin}}mm</h4></label>
+                        <label class="col-sm-12"><h4>@lang('str.lunghezzaFocale'): {{ $obbiettivo->LMin}}mm</h4></label>
                     @else
                         <label class="col-sm-12"><h4>@lang('str.lmin'): {{ $obbiettivo->LMin}}mm</h4></label>
                         <label class="col-sm-12"><h4>@lang('str.lmax'): {{ $obbiettivo->LMax}}mm</h4></label>
@@ -93,42 +94,111 @@
                     <strong>@lang('str.azioni')</strong>
                 </div>
                 <div class="panel-body">
-                    @if ($logged)
+                    @auth
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
-                            <button {{$giaPos?"disabled":""}} onclick="window.location = '{{ route('aggiuntaPossessoObbiettivo', ['utente' => $loggedName, 'id' => $obbiettivo->ID])}}';" class="btn btn-success btn-large btn-block"><span class="glyphicon glyphicon-check"> </span>  @lang('str.loPossiedo')</button>
+                            <button {{$giaPos?"disabled":""}} onclick="window.location = '{{ route('aggiuntaPossessoObbiettivo', ['utente' => auth()->user()->email, 'id' => $obbiettivo->ID])}}';" class="btn btn-success btn-large btn-block"><span class="glyphicon glyphicon-check"> </span>  @lang('str.loPossiedo')</button>
                         </div>
                         <div class="col-md-0 col-xs-12"> </div>
                         <div class="col-md-6 col-xs-12">
-                            <button {{$giaDes?"disabled":""}} onclick="window.location = '{{ route('aggiuntaDesiderioObbiettivo', ['utente' => $loggedName, 'id' => $obbiettivo->ID])}}';" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-heart"> </span>  @lang('str.loDesidero')</button>
+                            <button {{$giaDes?"disabled":""}} onclick="window.location = '{{ route('aggiuntaDesiderioObbiettivo', ['utente' => auth()->user()->email, 'id' => $obbiettivo->ID])}}';" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-heart"> </span>  @lang('str.loDesidero')</button>
                         </div>
                     </div>
                     <hr>
-                    @endif
+                    @endauth
                     <center>
                     <h4>@lang('str.acquista')</h4>
                     <a href="https://www.facebook.com/marketplace/search/?query=<?php echo str_replace(" ", "%20", $obbiettivo->{'Nome Completo'}); ?>">
-                        <img src="{{route('home')}}/img/facebook.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/facebook.png" width="13%"></a>
                     <a href="https://www.subito.it/annunci-italia/vendita/usato/?q=<?php echo str_replace(" ", "+", $obbiettivo->{'Nome Completo'}); ?>">
-                        <img src="{{route('home')}}/img/subito.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/subito.png" width="13%"></a>
                     <a href="https://www.amazon.it/s?k=<?php echo str_replace(" ", "+", $obbiettivo->{'Nome Completo'}); ?>">
-                        <img src="{{route('home')}}/img/amazon.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/amazon.png" width="13%"></a>
                     <a href="https://www.ebay.it/sch/i.html?_kw=<?php echo str_replace(" ", "+", $obbiettivo->{'Nome Completo'}); ?>">
-                        <img src="{{route('home')}}/img/ebay.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/ebay.png" width="13%"></a>
                     <a href="https://www.e-infin.com/eu/search/<?php echo str_replace(" ", "%20", $obbiettivo->{'Nome Completo'}); ?>">
-                        <img src="{{route('home')}}/img/infin.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/infin.png" width="13%"></a>
                     <a href="https://www.eglobalcentral.co.it/catalogsearch/result/?cat=&q=<?php echo str_replace(" ", "+", $obbiettivo->{'Nome Completo'}); ?>">
-                        <img src="{{route('home')}}/img/eglobal.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/eglobal.png" width="13%"></a>
                     <a href="https://www.fotoema.it/ricerca-un-prodotto.html?searchword=<?php echo str_replace(" ", "+", $obbiettivo->{'Nome Completo'}); ?>">
-                        <img src="{{route('home')}}/img/fotoema.png" width="13%"></a>
+                        <img src="{{route('/')}}/img/fotoema.png" width="13%"></a>
                     </center>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-xs-12">
-            <img src ='{{route('home')}}/img/{{$obbiettivo->ID}}.png' alt="Immagine" class='img-responsive'>
+            <img src ='{{route('/')}}/img/{{$obbiettivo->ID}}.png' alt="Immagine" class='img-responsive'>
         </div>
     </div>
 @endif 
 </div>
+<script>
+// VALIDAZIONE MODIFICA
+
+function validazione() {
+    var errore = false;
+    var testo = "";
+    var numero =  new RegExp("^([0-9]+(\.[0-9]+)?)$", "g");
+    
+    if ($("#nome")[0].value == "") {
+        testo += "→ {{trans('str.eo1')}}<BR>"
+        errore = true;
+    }
+    if ($("#marca")[0].value == "") {
+        testo += "→ {{trans('str.eo2')}}<BR>"
+        errore = true;
+    }
+    if ($("#lmin")[0].value == "") {
+        testo += "→ {{trans('str.eo3')}}<BR>"
+        errore = true;
+    } else if (!$("#lmin")[0].value.match(numero)) {
+        testo += "→ {{trans('str.eo4')}}<BR>"
+        errore = true;
+    }
+    if ($("#lmax")[0].value == "") {
+        testo += "→ {{trans('str.eo5')}}<BR>"
+        errore = true;
+    } else if (!$("#lmax")[0].value.match(numero)) {
+        testo += "→ {{trans('str.eo6')}}<BR>"
+        errore = true;
+    }
+    if ($("#f")[0].value == "") {
+        testo += "→ {{trans('str.eo7')}}<BR>"
+        errore = true;
+    } else if (!$("#f")[0].value.match(numero)) {
+        testo += "→ {{trans('str.eo8')}}<BR>"
+        errore = true;
+    }
+    if ($("#flmax")[0].value !== "" && !$("#flmax")[0].value.match(numero)) {
+        testo += "→ {{trans('str.eo9')}}<BR>"
+        errore = true;
+    }
+    if (!/^(\*{0,5})$/.test($("#rating")[0].value)) {
+        testo += "→ {{trans('str.eo10')}}<BR>"
+        errore = true;
+    }
+    
+    
+    if (!errore) {
+        var r = new XMLHttpRequest();
+        r.open("GET", '{{route("obbiettivoUnivoco")}}/' + $("#id")[0].value + '/' + $("#nome")[0].value, true);
+        r.setRequestHeader("connection", "close");
+        r.onreadystatechange = function () {
+            if (r.readyState == 4 && r.status == 200) {
+                if (r.responseText <0 || isNaN(r.responseText)) {
+                    document.getElementById("messaggio-errore").innerHTML = '<br><div id="messaggio-errore" class="alert alert-danger text-center">→ {{trans('str.eo11')}}</div>';
+                } else if (r.responseText == 0) {
+                    document.getElementById("mod-obbiettivo").submit();
+                } else {
+                    document.getElementById("messaggio-errore").innerHTML = '<br><div id="messaggio-errore" class="alert alert-danger text-center">→ {{trans('str.eo12')}}</div>';
+                }
+            }
+        };
+        r.send();
+        //r.send('{"nome" : "' + $("#nome")[0].value + '" }');
+    } else {
+        document.getElementById("messaggio-errore").innerHTML = '<br><div id="messaggio-errore" class="alert alert-danger text-center">' + testo + '</div>';
+    }
+}
+</script>
 @endsection

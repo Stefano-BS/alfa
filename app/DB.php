@@ -1,7 +1,7 @@
 <?php
 namespace App;
 
-use App\Utente;
+use App\User;
 use App\Obbiettivo;
 use App\Desiderio;
 use App\Des;
@@ -49,7 +49,7 @@ class DB {
     
     
     //  UTENTI
-    public function accedi($nome, $password) {
+    /*public function accedi($nome, $password) {
         $query = Utente::where([
             ['Nome',$nome],
             ['Password',md5($password)]
@@ -71,10 +71,10 @@ class DB {
         $nuovoUtente = new Utente(['Nome' => $nome, 'Password' => md5($password), 'permessi' => 0]);
         $nuovoUtente->save();
         return true;
-    }
+    }*/
     
     public function cambiaLingua($id, $valore) {
-        Utente::find($id)->update(['lingua' => $valore]);
+        User::find($id)->update(['lingua' => $valore]);
     }
     
     
@@ -89,7 +89,7 @@ class DB {
     }
     
     public function elencoDesideriObbiettivo($idUtente) {
-        return Utente::find($idUtente)->desideriObbiettivo;
+        return User::find($idUtente)->desideriObbiettivo;
     }
     
     public function aggiungiDesiderioCorpo($idUtente, $idArticolo) {
@@ -102,7 +102,7 @@ class DB {
     }
     
     public function elencoDesideriCorpo($idUtente) {
-        return Utente::find($idUtente)->desideriCorpo;
+        return User::find($idUtente)->desideriCorpo;
     }
     
     
@@ -117,7 +117,7 @@ class DB {
     }
     
     public function elencoPossessiObbiettivo($idUtente) {
-        return Utente::find($idUtente)->possessiObbiettivo;
+        return User::find($idUtente)->possessiObbiettivo;
     }
     
     public function aggiungiPossessoCorpo($idUtente, $idArticolo) {
@@ -130,6 +130,6 @@ class DB {
     }
     
     public function elencoPossessiCorpo($idUtente) {
-        return Utente::find($idUtente)->possessiCorpo;
+        return User::find($idUtente)->possessiCorpo;
     }
 }

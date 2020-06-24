@@ -8,10 +8,8 @@ use App\Obbiettivo;
 class ObbiettiviController extends Controller {
     
     public function tabella(Request $request, $modifica = false){
-        session_start();
         $modifica = $modifica == "modifica";
         $db = new DB();
-        $admin = false;
         $listaMarche = [trans('str.tutte'),"7Artisans","Dorr","Kamlan","Laowa","Lensbaby","Meike","Mitakon","Neewer","Samyang","Sigma","Sony","SLR Magic","Tamron","Yasuhara","Yongnuo","Zeiss","Zonlai"];
         
         if ($request->method() == "GET") {
@@ -41,52 +39,48 @@ class ObbiettiviController extends Controller {
         }
         
         $elenco = $db->elencoObbiettivi($marcaSelezionata, $focaliSelezionate, $apertureSelezionate);
-        
-        if(isset($_SESSION['logged']) && $_SESSION['logged']==true) {
-                $admin = $_SESSION["admin"];
-                return view('obbiettivi')->with('logged',true)->with('loggedName', $_SESSION['loggedName'])->with('admin',$admin)->with('modifica',$modifica)
-                        ->with('elencoAttributi', $elencoAttributi)->with('marcaSelezionata', $marcaSelezionata)->with('listaMarche',$listaMarche)
-                        ->with('focaliSelezionate',$focaliSelezionate)->with('apertureSelezionate',$apertureSelezionate)->with('elenco',$elenco);
-            } else {
-                return view('obbiettivi')->with('logged',false)->with('admin',false)->with('modifica',false)
-                        ->with('elencoAttributi', $elencoAttributi)->with('marcaSelezionata', $marcaSelezionata)->with('listaMarche',$listaMarche)
-                        ->with('focaliSelezionate',$focaliSelezionate)->with('apertureSelezionate',$apertureSelezionate)->with('elenco',$elenco);
-            }
+        return view('obbiettivi')->with('modifica', $modifica)
+            ->with('elencoAttributi', $elencoAttributi)->with('marcaSelezionata', $marcaSelezionata)->with('listaMarche',$listaMarche)
+            ->with('focaliSelezionate',$focaliSelezionate)->with('apertureSelezionate',$apertureSelezionate)->with('elenco',$elenco);
     }
     
     public function pagina($obbiettivo, $modifica) {
-        session_start();
-        $logged = false; $loggedName = false; $admin = false; $giaDes = false; $giaPos = false;
-        if (isset($_SESSION['logged'])) {$logged = $_SESSION['logged'];}
-        if (isset($_SESSION['loggedName'])) {$loggedName = $_SESSION['loggedName'];}
-        if (isset($_SESSION['admin'])) {$admin = $_SESSION['admin'];}
+        $giaDes = false; $giaPos = false;
         $obbiettivo = Obbiettivo::find($obbiettivo);
         if (empty($obbiettivo)) {
             return Redirect::back();
-            //return $this->tabella(new Request(), $modifica);
         }
-        if (isset($_SESSION['idUtente'])) {
+        if (auth()->check()) {
             $db = new DB();
-            $desideri = $db->elencoDesideriObbiettivo($_SESSION['idUtente']);
+            $desideri = $db->elencoDesideriObbiettivo(auth()->user()->id);
             foreach ($desideri as $desiderio) {
                 if ($desiderio->ID == $obbiettivo->ID) {$giaDes = true; break;}
             }
-            $possessi = $db->elencoPossessiObbiettivo($_SESSION['idUtente']);
+            $possessi = $db->elencoPossessiObbiettivo(auth()->user()->id);
             foreach ($possessi as $possesso) {
-            if ($possesso->ID == $obbiettivo->ID) {$giaPos = true; break;}
+                if ($possesso->ID == $obbiettivo->ID) {$giaPos = true; break;}
             }
         }
-        return view('modificaObbiettivo')->with('logged',$logged)->with('loggedName', $loggedName)->with('obbiettivo',$obbiettivo)->with('admin', $admin)->with('modifica', $modifica)->with('giaDes',$giaDes)->with('giaPos',$giaPos);
+        return view('modificaObbiettivo')->with('obbiettivo',$obbiettivo)->with('modifica', $modifica)
+                ->with('giaDes',$giaDes)->with('giaPos',$giaPos);
     }
     
     public function eseguiModifica(Request $request) {
-        session_start();
-        if(isset($_SESSION['logged']) && $_SESSION["admin"]==true) {
+        if(auth()->check() && auth()->user()->permessi) {
             $db = new DB();
-            $db->modificaObbiettivo($request->input("id"), $request->input("nome"), $request->input("lmin"), $request->input("lmax"), $request->input("f"), $request->input("flmax"), $request->input("rating"), $request->input("marca"), $request->input("tag"), $request->input("oss"));
+            $db->modificaObbiettivo($request->input("id"), $request->input("nome"), $request->input("lmin"),
+                $request->input("lmax"), $request->input("f"), $request->input("flmax"), $request->input("rating"),
+                $request->input("marca"), $request->input("tag"), $request->input("oss"));
             return Redirect::to(route('obbiettivi', ["modifica" => "modifica"]));
         } else {
             return Redirect::to(route('home'));
         }
+    }
+    
+    public function univoco($id, $obbiettivo) {
+        $risposta = count(Obbiettivo::where([
+            ['Nome Completo', $obbiettivo],
+            ['ID', "!=", $id]])->get());
+        return response($risposta);
     }
 }

@@ -5,8 +5,7 @@
 @section('barraAccesso')
 <?php
     require_once('barra.php');
-    if (!defined("loggedName")) barra($logged, "", "");
-    else barra($logged, $loggedName, "");
+    barra("");
 ?>
 @endsection
 
@@ -16,7 +15,7 @@
     <div class="row">
         <div class="col-sm-9" id="colonna">
             <header>
-                <h1>@lang('str.titoloHome')</h1>
+                <h1 style="word-wrap: break-word; text-shadow: 0px 0px 15px rgba(100,0,0,0.4); color: rgb(0,0,0);">@lang('str.titoloHome')</h1>
             </header>
             <p class="lead">@lang('str.intro1')<br>
             @lang('str.intro2')<br>
@@ -30,7 +29,7 @@
         <div class="col-sm-3">
             <div id="spazioColonna"></div>
             <a data-toggle="collapse" href="#-{{$corpo->ID}}" role="button" aria-expanded="false">
-                <img id="corpoMacchina" src="{{route('home')}}/img/{{$corpo->Nome}}.png" width="100%">
+                <img id="corpoMacchina" src="{{route('/')}}/img/{{$corpo->Nome}}.png" width="100%">
             </a>
             <div class="collapse text-center" id="-{{$corpo->ID}}">
                 <div class="card card-body">
@@ -45,7 +44,7 @@
         @foreach ($obbiettivi as $elemento)
         <div class="col-md-3 col-xs-12 align-middle">
             <a data-toggle="collapse" href="#{{$elemento->ID}}" role="button" aria-expanded="false">
-                <img name='obbiettivo' src="{{route('home')}}/img/{{$elemento->ID}}.png" width="10%">
+                <img name='obbiettivo' src="{{route('/')}}/img/{{$elemento->ID}}.png" width="10%">
             </a>
             <div class="collapse" id="{{$elemento->ID}}">
                 <div class="card card-body">
