@@ -71,11 +71,17 @@ class ObbiettiviController extends Controller {
             $db->modificaObbiettivo($request->input("id"), $request->input("nome"), $request->input("lmin"),
                 $request->input("lmax"), $request->input("f"), $request->input("flmax"), $request->input("rating"),
                 $request->input("marca"), $request->input("tag"), $request->input("oss"));
+            
+            if ($request->immagine) {
+                $request->validate(['immagine' => 'required|image|mimes:png|max:2048']);
+                $request->immagine->move(public_path('img'), $request->input("id") . ".png");
+            }
             return Redirect::to(route('obbiettivi', ["modifica" => "modifica"]));
         } else {
             return Redirect::to(route('home'));
         }
     }
+    
     
     public function univoco($id, $obbiettivo) {
         $risposta = count(Obbiettivo::where([

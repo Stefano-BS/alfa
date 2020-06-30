@@ -31,12 +31,12 @@
 }
 
 @font-face {
-  font-family: emoji;
-  src: url(../fonts/APPLE.TTF);
+    font-family: emoji;
+    src: url(../fonts/APPLE.TTF);
 }
 
 .selectLingua {
-  font-family: emoji;
+    font-family: emoji;
 }
 
 .immagineProfilo {
@@ -60,7 +60,29 @@
     display: inline-block;
 }
 
-.immagineProfilo:focus + label,
-.immagineProfilo + label:hover {
-      background-color: rgb(237,156,40);
+.immagineProfilo:focus + label, .immagineProfilo + label:hover {
+    background-color: rgb(237,156,40);
+}
+
+
+.hConLinea {
+    overflow: hidden;
+    text-align: center;
+}
+.hConLinea:before, .hConLinea:after {
+    background-color: #aaa;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+}
+.hConLinea:before {
+    right: 0.5em;
+    margin-left: -50%;
+}
+.hConLinea:after {
+    left: 0.5em;
+    margin-right: -50%;
 }

@@ -19,7 +19,8 @@
         <div class="col-md-8 col-md-offset-2">
             <header class='text-center'>
                 <br>
-                @if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/laravel/public/utenti/" . auth()->user()->email))
+                @if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/laravel/public/utenti/" . auth()->user()->email) ||
+                    file_exists($_SERVER['DOCUMENT_ROOT'] . "/utenti/" . auth()->user()->email))
                     <img id="imProfilo" onclick="window.location='{{route('/')}}/utenti/{{auth()->user()->email}}'" src='{{route('/')}}/utenti/{{auth()->user()->email}}' class='img-circle' style="box-shadow: 0px 0px 30px;"/>
                     <script>$("#imProfilo").fadeOut(0);</script>
                 @endif
@@ -33,10 +34,26 @@
                         <strong>@lang('str.pannelloAdmin')</strong>
                     </div>
                     <div class="panel-body">
+                        <h4 class="hConLinea">@lang('str.impostazioni')</h4>
                         <div class="row">
                             <form method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <h5 class='pull-right'>@lang('str.nome'):</h5>
+                                    </div>
+                                    <div class="input-group col-sm-4">
+                                        <input type="text" class="form-control" value="{{ auth()->user()->name }}" id='cambionome'>
+                                        <div class="input-group-btn">
+                                            <a class="btn btn-default"
+                                            onclick="location.href = '{{route('paginaUtente', ['utente' => auth()->user()->email])}}/cambianome/' + document.getElementById('cambionome').value">
+                                                <i class="glyphicon glyphicon-floppy-save"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-3"> </div>
+                                    
                                     <div class="col-sm-4 col-sm-offset-2">
                                         <h5 class='pull-right'>@lang('str.immProfilo'):</h5>
                                     </div>
@@ -46,7 +63,9 @@
                                             <h5><span class='glyphicon glyphicon-upload'></span>  @lang('str.caricaFile')  </h5>
                                         </label>
                                     </div>
+                                    
                                     <div class="col-sm-2"> </div>
+                                    
                                     <div class="col-sm-4 col-sm-offset-2">
                                         <h5 class='pull-right'>@lang('str.lingua'):</h5>
                                     </div>
@@ -62,7 +81,7 @@
                         </div>
                         @if (auth()->user()->permessi)
                         <br>
-                        <hr>
+                        <h4 class="hConLinea">@lang('str.amministrazione')</h4>
                         <div class="row">
                             <div class="col-md-6 col-xs-12">
                                 <a href="{{ route('obbiettivi', ['modifica' => "modifica"]) }}" class="btn btn-warning btn-large btn-block">
@@ -89,13 +108,17 @@
                             @else
                             @foreach ($desideriCorpo as $desiderio)
                             <tr>
-                                <td onclick="window.location.href = '{{ route('modificaCorpo', ['corpo' => $desiderio->ID, 'modifica' => 'visualizza']) }}';">Sony {{$desiderio->Nome}}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$desiderio->Nome}}', '{{route('rimozioneDesiderioCorpo', ['utente' => auth()->user()->email, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td onclick="window.location.href = '{{ route('modificaCorpo', ['corpo' => $desiderio->ID, 'modifica' => 'visualizza']) }}';">
+                                    Sony {{$desiderio->Nome}}</td>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$desiderio->Nome}}', '{{route('rimozioneDesiderioCorpo', ['utente' => auth()->user()->email, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block">
+                                    <span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @foreach ($desideri as $desiderio)
                             <tr>
-                                <td onclick="window.location.href = '{{ route('modificaObbiettivo', ['obbiettivo' => $desiderio->ID, 'modifica' => 'visualizza']) }}';">{{$desiderio->{'Nome Completo'} }}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$desiderio->{'Nome Completo'} }}', '{{route('rimozioneDesiderioObbiettivo', ['utente' => auth()->user()->email, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td onclick="window.location.href = '{{ route('modificaObbiettivo', ['obbiettivo' => $desiderio->ID, 'modifica' => 'visualizza']) }}';">
+                                    {{$desiderio->{'Nome Completo'} }}</td>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$desiderio->{'Nome Completo'} }}', '{{route('rimozioneDesiderioObbiettivo', ['utente' => auth()->user()->email, 'id' => $desiderio->ID])}}');" class="btn btn-danger btn-large btn-block">
+                                    <span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @endif
                         </table>
@@ -113,13 +136,17 @@
                             @else
                             @foreach ($possessiCorpo as $possesso)
                             <tr>
-                                <td onclick="window.location.href = '{{ route('modificaCorpo', ['corpo' => $possesso->ID, 'modifica' => 'visualizza']) }}';">Sony {{$possesso->Nome}}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$possesso->Nome}}', '{{route('rimozionePossessoCorpo', ['utente' => auth()->user()->email, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td onclick="window.location.href = '{{ route('modificaCorpo', ['corpo' => $possesso->ID, 'modifica' => 'visualizza']) }}';">
+                                    Sony {{$possesso->Nome}}</td>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, 'Sony {{$possesso->Nome}}', '{{route('rimozionePossessoCorpo', ['utente' => auth()->user()->email, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block">
+                                    <span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @foreach ($possessi as $possesso)
                             <tr>
-                                <td onclick="window.location.href = '{{ route('modificaObbiettivo', ['obbiettivo' => $possesso->ID, 'modifica' => 'visualizza']) }}';">{{$possesso->{'Nome Completo'} }}</td>
-                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$possesso->{'Nome Completo'} }}', '{{route('rimozionePossessoObbiettivo', ['utente' => auth()->user()->email, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block"><span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
+                                <td onclick="window.location.href = '{{ route('modificaObbiettivo', ['obbiettivo' => $possesso->ID, 'modifica' => 'visualizza']) }}';">
+                                    {{$possesso->{'Nome Completo'} }}</td>
+                                <td><a data-toggle="modal" data-target="#confermaEliminazione" onclick="eliminazione(event, '{{$possesso->{'Nome Completo'} }}', '{{route('rimozionePossessoObbiettivo', ['utente' => auth()->user()->email, 'id' => $possesso->ID])}}');" class="btn btn-danger btn-large btn-block">
+                                    <span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</button></td></tr>
                             @endforeach
                             @endif
                         </table>
@@ -159,9 +186,11 @@ function eliminazione(event, nome, link) {
 }
 
 img = document.getElementById("imProfilo");
-img.setAttribute("width","50%");
-img.setAttribute("height", img.parentNode.offsetWidth/2);
-img.setAttribute("width", img.height);
-$("#imProfilo").fadeIn(1000);
+if (img) {
+    img.setAttribute("width","50%");
+    img.setAttribute("height", img.parentNode.offsetWidth/2);
+    img.setAttribute("width", img.height);
+    $("#imProfilo").fadeIn(1000);
+}
 </script>
 @endsection

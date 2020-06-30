@@ -1,7 +1,8 @@
 <?php
 function barra($active){
     if (auth()->check()) {
-        $haImmagine = file_exists($_SERVER['DOCUMENT_ROOT'] . "/laravel/public/utenti/" . auth()->user()->email);
+        $haImmagine = file_exists($_SERVER['DOCUMENT_ROOT'] . "/laravel/public/utenti/" . auth()->user()->email) ||
+                file_exists($_SERVER['DOCUMENT_ROOT'] . "/utenti/" . auth()->user()->email);
         echo "<li ". $active ."><a href=" . route('paginaUtente', ['utente' => auth()->user()->email]) . ">";
         if ($haImmagine) {
             echo "<img src=". route('/') ."/utenti/" . auth()->user()->email . " class='img-circle' style='height: 18px; width: 18px'/>";

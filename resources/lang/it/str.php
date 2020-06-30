@@ -67,6 +67,8 @@ return [
     'pannelloAdmin' => 'Pannello di Amministrazione',
     'immProfilo' => 'Immagine di Profilo',
     'caricaFile' => 'Carica Immagine',
+    'impostazioni' => 'Impostazioni',
+    'amministrazione' => 'Amministrazione',
     'listaDesideri' => 'Lista dei Desideri',
     'pannelloPossessi' => 'Articoli posseduti',
     'suggerimentodesideri' => 'Per dichiarare un articolo come desiderato, aprine la realtiva scheda',
@@ -129,6 +131,7 @@ return [
     'ec3' => 'Il campo',
     'ec4' => 'deve essere un numero intero',
     'ec5' => 'Sono già presenti altri corpi omonimi',
+    'ec6' => 'Il nome è sempre lungo 5 caratteri',
     
     'e404' => 'Risorsa non Trovata',
     

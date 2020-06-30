@@ -10,8 +10,7 @@
 @endsection
 
 @section('corpo')
-<script>    document.getElementById('navStrumenti').setAttribute('class', 'active');
-</script>
+<script>    document.getElementById('navStrumenti').setAttribute('class', 'active');    </script>
 <div class="container">
     <header>
         <h1 align="center">@lang('str.strumentiUtili')</h1>
@@ -29,6 +28,11 @@ div.style.position = "absolute";
 document.body.appendChild(div);
 DPI = div.offsetHeight*1.5;//*window.devicePixelRatio;
 document.body.removeChild( div );
+
+document.body.onload = function () {
+    $("#grafico").width($("#graficoContainer").width());
+    $("#grafico").height($("#graficoContainer").width());
+}
 
 function errore(messaggio, id, areaErrori) {
     erroreFormSensore = true;
@@ -454,8 +458,4 @@ function grafico(iperfocali, aFuocoDa){
         <br>
     </div>
 </div>
-<script>
-$("#grafico").width($("#graficoContainer").width());
-$("#grafico").height($("#graficoContainer").width());
-</script>
 @endsection

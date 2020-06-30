@@ -78,4 +78,13 @@ class ProfiloController extends Controller
         $request->immagine->move(public_path('utenti'), $utente);
         return Redirect::to(route('paginaUtente',['utente' => $utente]));
     }
+    
+    public function cambiaNome($utente, $nome){
+        if ($utente !== auth()->user()->email) {
+            return Redirect::back();
+        }
+        $db = new DB();
+        $db->cambiaNome(auth()->user()->id, $nome);
+        return Redirect::back();
+    }
 }

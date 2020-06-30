@@ -5,10 +5,15 @@
         <group>
             <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/FrontController.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/obbiettivi.blade.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/resources/lang/it/validation.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/auth/passwords/email.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/modificaObbiettivo.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/CorpiController.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/auth/passwords/reset.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/app/DB.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/ProfiloController.php</file>
             <file>file:/C:/xampp/htdocs/laravel/app/User.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/index.blade.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/strumenti.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/lang/en/str.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/auth/register.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/app/Http/Middleware/Lingua.php</file>
@@ -17,18 +22,10 @@
             <file>file:/C:/xampp/htdocs/laravel/resources/lang/it/str.php</file>
             <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/ObbiettiviController.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/profilo.blade.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/public/css/stile.css</file>
-            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/AuthController.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/public/barra.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/resources/views/auth/login.blade.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/resources/views/auth/passwords/email.blade.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/resources/views/modificaObbiettivo.blade.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/CorpiController.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/app/Http/Controllers/ProfiloController.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/resources/views/index.blade.php</file>
-            <file>file:/C:/xampp/htdocs/laravel/resources/views/strumenti.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/resources/views/corpi.blade.php</file>
             <file>file:/C:/xampp/htdocs/laravel/routes/web.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/public/barra.php</file>
+            <file>file:/C:/xampp/htdocs/laravel/resources/views/auth/login.blade.php</file>
         </group>
     </open-files>
 </project-private>

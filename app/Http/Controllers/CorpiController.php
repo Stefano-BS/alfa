@@ -75,6 +75,11 @@ class CorpiController extends Controller {
                 'Mirino' => $request->input('mirino'),'Touch' => (bool)$request->input('touch'),'MaxSS' => $request->input('maxss'),
                 'Flash' => (bool)$request->input('flash'),'FPS' => $request->input('fps'),'QHD' => $request->input('qhd'),
                 'FHD' => $request->input('fhd'),'CIPA' => $request->input('cipa'),'Peso' => $request->input('peso')]);
+            
+            if ($request->immagine) {
+                $request->validate(['immagine' => 'required|image|mimes:png|max:4096|min:80']);
+                $request->immagine->move(public_path('img'), $request->input("nome") . ".png");
+            }
             return Redirect::to(route('corpi', ["modifica" => "modifica"]));
         } else {
             return Redirect::to(route('home'));

@@ -29,26 +29,32 @@
             </div>
             <div class="panel-body">
                 <div class="col-md-10 col-md-offset-1 col-xs-12">
-                    <form id="mod-obbiettivo" action="" method="post" class="form-horizontal">
+                    <form id="mod-obbiettivo" action="" method="post" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
+                        <div class='form-group row'>
+                            <input type="file" class="immagineProfilo" name="immagine" id="caricaImmObbiettivo" accept="image/x-png"/>
+                            <label for="caricaImmObbiettivo">
+                                <h5><span class='glyphicon glyphicon-upload'></span>  @lang('str.caricaFile')  </h5>
+                            </label>
+                        </div>
                         <div class="form-group row"><div class="col-sm-8">
                             <input type="hidden" name="id" id="id" class="form-control" value="{{$obbiettivo->ID}}"></div></div>
                         <div class="form-group row"><label for="nome" class="col-sm-4 col-form-label">@lang('str.nomeCompleto'): </label><div class="col-sm-8">
-                            <input type="text" name="nome" id="nome" class="form-control" value="{{ $obbiettivo->{'Nome Completo'} }}"></div></div>
+                            <input type="text" maxlength="50" name="nome" id="nome" class="form-control" value="{{ $obbiettivo->{'Nome Completo'} }}"></div></div>
                         <div class="form-group row"><label for="marca" class="col-sm-4 col-form-label">@lang('str.marca'): </label><div class="col-sm-8">
-                            <input type="text" name="marca" id="marca" class="form-control" value="{{ $obbiettivo->Marca}}"></div></div>
+                            <input type="text" maxlength="10" name="marca" id="marca" class="form-control" value="{{ $obbiettivo->Marca}}"></div></div>
                         <div class="form-group row"><label for="rating" class="col-sm-4 col-form-label">@lang('str.rating'): </label><div class="col-sm-8">
-                            <input type="text" name="rating" id="rating" class="form-control" value="{{ $obbiettivo->Rating}}"></div></div>
+                            <input type="text" maxlength="5" name="rating" id="rating" class="form-control" value="{{ $obbiettivo->Rating}}"></div></div>
                         <div class="form-group row"><label for="lmin" class="col-sm-4 col-form-label">@lang('str.lmin'): </label><div class="col-sm-8">
-                            <input type="text" name="lmin" id="lmin" class="form-control" value="{{ $obbiettivo->LMin}}"></div></div>
+                            <input type="text" maxlength="12" name="lmin" id="lmin" class="form-control" value="{{ $obbiettivo->LMin}}"></div></div>
                         <div class="form-group row"><label for="lmax" class="col-sm-4 col-form-label">@lang('str.lmax'): </label><div class="col-sm-8">
-                            <input type="text" name="lmax" id="lmax" class="form-control" value="{{ $obbiettivo->LMax}}"></div></div>
+                            <input type="text" maxlength="12" name="lmax" id="lmax" class="form-control" value="{{ $obbiettivo->LMax}}"></div></div>
                         <div class="form-group row"><label for="f" class="col-sm-4 col-form-label">@lang('str.maxf'): </label><div class="col-sm-8">
-                            <input type="text" name="f" id="f" class="form-control" value="{{ $obbiettivo->F}}"></div></div>
+                            <input type="text" maxlength="12" name="f" id="f" class="form-control" value="{{ $obbiettivo->F}}"></div></div>
                         <div class="form-group row"><label for="flmax" class="col-sm-4 col-form-label">@lang('str.apertura') @lang('str.amaxf'): </label><div class="col-sm-8">
-                            <input type="text" name="flmax" id="flmax" class="form-control" @if ($obbiettivo->FLMax !==0.0) value="{{ $obbiettivo->FLMax }}" @endif></div></div>
+                            <input type="text" maxlength="12" name="flmax" id="flmax" class="form-control" @if ($obbiettivo->FLMax !==0.0) value="{{ $obbiettivo->FLMax }}" @endif></div></div>
                         <div class="form-group row"><label for="tag" class="col-sm-4 col-form-label">@lang('str.elencoTAG'): </label><div class="col-sm-8">
-                            <input type="text" name="tag" id="tag" class="form-control" value="{{$obbiettivo->TAG}}"></div></div>
+                            <input type="text" maxlength="20" name="tag" id="tag" class="form-control" value="{{$obbiettivo->TAG}}"></div></div>
                         <div class="form-group row"><label for="oss" class="col-sm-4 col-form-label">@lang('str.stabilizzazione')</label><div class="col-sm-8">
                             <input type="checkbox" name="oss" id="oss"@if($obbiettivo->OSS !==0)checked @endif></div></div>
                         <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"

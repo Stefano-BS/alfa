@@ -11,14 +11,14 @@ use App\Poss;
 class DB {
     
     //  OBBIETTIVI
-    public function elencoObbiettivi($marca, $focaliSelezionate, $apertureSelezionate) {
+    public function elencoObbiettivi($marca, $focaliSelezionate, $apertureSelezionate, $ord = "asc") {
         if ($marca == trans('str.tutte')) {
             return Obbiettivo::where([
                 ['LMin','>=',$focaliSelezionate[0]],
                 ['LMax','<=',$focaliSelezionate[1]],
                 ['F','<=', $apertureSelezionate[0]],
                 ['FLMax','<=', $apertureSelezionate[1]]
-            ])->get();
+            ])->orderBy('LMin', $ord)->orderBy('F', $ord)->orderBy('Nome Completo', $ord)->get();
             
         } else {
             return Obbiettivo::where([
@@ -27,7 +27,7 @@ class DB {
                 ['LMax','<=',$focaliSelezionate[1]],
                 ['F','<=', $apertureSelezionate[0]],
                 ['FLMax','<=', $apertureSelezionate[1]]
-            ])->get();
+            ])->orderBy('LMin', $ord)->orderBy('F', $ord)->orderBy('Nome Completo', $ord)->get();
         }
     }
     
@@ -76,6 +76,11 @@ class DB {
     public function cambiaLingua($id, $valore) {
         User::find($id)->update(['lingua' => $valore]);
     }
+    
+    public function cambiaNome($id, $valore) {
+        User::find($id)->update(['name' => $valore]);
+    }
+    
     
     
     //  DESIDERI UTENTE

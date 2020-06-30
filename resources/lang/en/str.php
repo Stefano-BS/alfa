@@ -59,7 +59,7 @@ return [
     'loPossiedo' => 'I Own This',
     
     'titoloHome' => 'Stunning Alfa',
-    'intro1' => 'A very easy example of a website made whthin the Web Development and Digital Services course.',
+    'intro1' => 'A very easy example of a website made within the Web Development and Digital Services course.',
     'intro2' => 'Inside this site it is possible to lookup into a cataloge covering the vast majority of the available lenses for the Sony E-Mount (only the ones for the APS-C format), and having their main specifications. Similarly are catalogued the most recet camera bodies (starting from 2014).',
     'intro3' => 'In order to personalize the interaction with the catalogue, a registered user can declare an item as <i>owned or desired</i>. Also, for each item it is possible to start a search for sales listings in a bunch of fairly popular platforms.',
     'cit' => 'Those who do not learn how to decipher photographs will be the illiterate of the future.',
@@ -67,6 +67,8 @@ return [
     'pannelloAdmin' => 'Administration Panel',
     'immProfilo' => 'Profile Picture',
     'caricaFile' => 'Load Image',
+    'impostazioni' => 'Settings',
+    'amministrazione' => 'Administration',
     'listaDesideri' => 'Wish List',
     'pannelloPossessi' => 'Owned List',
     'suggerimentodesideri' => 'To declare an article as desired, jump to its sheet',
@@ -129,6 +131,7 @@ return [
     'ec3' => 'The field',
     'ec4' => 'must be a natural number',
     'ec5' => 'There are alredy other bodies with the same name',
+    'ec6' => 'The model name is always 5 characters long',
 
     'e404' => 'Resource not Found',
     

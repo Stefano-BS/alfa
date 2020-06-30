@@ -29,50 +29,56 @@
             </div>
             <div class="panel-body">
                 <div class="col-md-10 col-md-offset-1 col-xs-12">
-                    <form id="mod-obbiettivo" action="" method="post" class="form-horizontal">
+                    <form id="mod-obbiettivo" action="" method="post" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
+                        <div class='form-group row'>
+                            <input type="file" class="immagineProfilo" name="immagine" id="caricaImmCorpo" accept="image/x-png"/>
+                            <label for="caricaImmCorpo">
+                                <h5><span class='glyphicon glyphicon-upload'></span>  @lang('str.caricaFile')  </h5>
+                            </label>
+                        </div>
                         <div class="form-group row"><div class="col-sm-8">
                             <input type="hidden" name="id" id="id" class="form-control" value="{{$corpo->ID}}"></div></div>
                         <div class="form-group row"><label for="nome" class="col-sm-4 col-form-label">@lang('str.nome'): </label><div class="col-sm-8">
-                            <input type="text" name="nome" id="nome" class="form-control" value="{{$corpo->Nome}}"></div></div>
+                            <input type="text" maxlength="5" name="nome" id="nome" class="form-control" value="{{$corpo->Nome}}"></div></div>
                         <div class="form-group row"><label for="data" class="col-sm-4 col-form-label">@lang('str.data'): </label><div class="col-sm-8">
                             <input type="date" name="data" id="data" class="form-control" value="{{ $corpo->Data}}"></div></div>
                         <div class="form-group row"><label for="msrp" class="col-sm-4 col-form-label">MSRP: </label><div class="col-sm-8">
-                            <input type="text" name="msrp" id="msrp" class="form-control" value="{{$corpo->MSRP}}"></div></div>
+                            <input type="text" maxlength="11" name="msrp" id="msrp" class="form-control" value="{{$corpo->MSRP}}"></div></div>
                         <div class="form-group row"><label for="materiale" class="col-sm-4 col-form-label"> @lang('str.materiale'): </label><div class="col-sm-8">
-                            <input type="text" name="materiale" id="materiale" class="form-control" value="{{$corpo->Materiale}}"></div></div>
+                            <input type="text" maxlength="15" name="materiale" id="materiale" class="form-control" value="{{$corpo->Materiale}}"></div></div>
                         <div class="form-group row"><label for="risoluzione" class="col-sm-4 col-form-label">@lang('str.risoluzione'): </label><div class="col-sm-8">
                             <input type="text" name="risoluzione" id="risoluzione" class="form-control" value="{{$corpo->Risoluzione}}"></div></div>
                         <div class="form-group row"><label for="formato" class="col-sm-4 col-form-label">@lang('str.formato'): </label><div class="col-sm-8">
-                            <input type="text" name="formato" id="formato" class="form-control" value="{{$corpo->Formato}}"></div></div>
+                            <input type="text" maxlength="10" name="formato" id="formato" class="form-control" value="{{$corpo->Formato}}"></div></div>
                         <div class="form-group row"><label for="maxiso" class="col-sm-4 col-form-label">@lang('str.maxISO'): </label><div class="col-sm-8">
-                            <input type="text" name="maxiso" id="maxiso" class="form-control" value="{{$corpo->MaxISO }}"></div></div>
+                            <input type="text" maxlength="11" name="maxiso" id="maxiso" class="form-control" value="{{$corpo->MaxISO }}"></div></div>
                         <div class="form-group row"><label for="maxisoext" class="col-sm-4 col-form-label">@lang('str.ISOext'): </label><div class="col-sm-8">
-                            <input type="text" name="maxisoext" id="maxisoext" class="form-control" value="{{$corpo->MaxISOExt}}"></div></div>
+                            <input type="text" maxlength="11" name="maxisoext" id="maxisoext" class="form-control" value="{{$corpo->MaxISOExt}}"></div></div>
                         <div class="form-group row"><label for="oss" class="col-sm-4 col-form-label">@lang('str.stabilizzazione')</label><div class="col-sm-8">
                             <input type="checkbox" name="oss" id="oss"@if($corpo->OSS !==0)checked @endif></div></div>
                         <div class="form-group row"><label for="af" class="col-sm-4 col-form-label">AF: </label><div class="col-sm-8">
-                            <input type="text" name="af" id="af" class="form-control" value="{{$corpo->AF}}"></div></div>
+                            <input type="text" maxlength="11" name="af" id="af" class="form-control" value="{{$corpo->AF}}"></div></div>
                         <div class="form-group row"><label for="schermo" class="col-sm-4 col-form-label">@lang('str.schermo'): </label><div class="col-sm-8">
-                            <input type="text" name="schermo" id="schermo" class="form-control" value="{{$corpo->Schermo}}"></div></div>
+                            <input type="text" maxlength="11" name="schermo" id="schermo" class="form-control" value="{{$corpo->Schermo}}"></div></div>
                         <div class="form-group row"><label for="mirino" class="col-sm-4 col-form-label">@lang('str.mirino'): </label><div class="col-sm-8">
-                            <input type="text" name="mirino" id="mirino" class="form-control" value="{{$corpo->Mirino}}"></div></div>
+                            <input type="text" maxlength="11" name="mirino" id="mirino" class="form-control" value="{{$corpo->Mirino}}"></div></div>
                         <div class="form-group row"><label for="touch" class="col-sm-4 col-form-label">Touch</label><div class="col-sm-8">
                             <input type="checkbox" name="touch" id="touch"@if($corpo->Touch !==0)checked @endif></div></div>
                         <div class="form-group row"><label for="maxss" class="col-sm-4 col-form-label">@lang('str.massima') SS: </label><div class="col-sm-8">
-                            <input type="text" name="maxss" id="maxss" class="form-control" value="{{$corpo->MaxSS}}"></div></div>
+                            <input type="text" maxlength="11" name="maxss" id="maxss" class="form-control" value="{{$corpo->MaxSS}}"></div></div>
                         <div class="form-group row"><label for="flash" class="col-sm-4 col-form-label">Flash</label><div class="col-sm-8">
                             <input type="checkbox" name="flash" id="flash"@if($corpo->Flash !==0)checked @endif></div></div>
                         <div class="form-group row"><label for="fps" class="col-sm-4 col-form-label">FPS: </label><div class="col-sm-8">
-                            <input type="text" name="fps" id="fps" class="form-control" value="{{$corpo->FPS}}"></div></div>
+                            <input type="text" maxlength="4" name="fps" id="fps" class="form-control" value="{{$corpo->FPS}}"></div></div>
                         <div class="form-group row"><label for="qhd" class="col-sm-4 col-form-label">4K: </label><div class="col-sm-8">
-                            <input type="text" name="qhd" id="qhd" class="form-control" value="{{$corpo->QHD}}"></div></div>
+                            <input type="text" maxlength="4" name="qhd" id="qhd" class="form-control" value="{{$corpo->QHD}}"></div></div>
                         <div class="form-group row"><label for="fhd" class="col-sm-4 col-form-label">FHD: </label><div class="col-sm-8">
-                            <input type="text" name="fhd" id="fhd" class="form-control" value="{{$corpo->FHD}}"></div></div>
+                            <input type="text" maxlength="4" name="fhd" id="fhd" class="form-control" value="{{$corpo->FHD}}"></div></div>
                         <div class="form-group row"><label for="cipa" class="col-sm-4 col-form-label">CIPA: </label><div class="col-sm-8">
-                            <input type="text" name="cipa" id="cipa" class="form-control" value="{{$corpo->CIPA}}"></div></div>
+                            <input type="text" maxlength="6" name="cipa" id="cipa" class="form-control" value="{{$corpo->CIPA}}"></div></div>
                         <div class="form-group row"><label for="peso" class="col-sm-4 col-form-label">@lang('str.peso'): </label><div class="col-sm-8">
-                            <input type="text" name="peso" id="peso" class="form-control" value="{{$corpo->Peso}}"></div></div>
+                            <input type="text" maxlength="6" name="peso" id="peso" class="form-control" value="{{$corpo->Peso}}"></div></div>
                         <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"
                             onclick="event.preventDefault(); validazione();"><br>
                     </form>
@@ -177,6 +183,11 @@ function validazione() {
             testo += "→ {{trans('str.ec3')}} " + campiInteri[i] + " {{trans('str.ec4')}}<BR>";
             errore = true;
         };
+        
+    if ($("#nome")[0].value.length != 5) {
+        testo += "→ {{trans('str.ec6')}}<BR>";
+        errore = true;
+    }
     
     if (!errore) {
         var r = new XMLHttpRequest();
