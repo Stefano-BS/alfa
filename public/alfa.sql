@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 05, 2020 alle 12:21
+-- Creato il: Giu 30, 2020 alle 16:15
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.3
 
@@ -72,7 +72,7 @@ INSERT INTO `corpi` (`ID`, `Nome`, `Data`, `MSRP`, `Materiale`, `Risoluzione`, `
 --
 
 CREATE TABLE `des` (
-  `IDUtente` int(11) NOT NULL,
+  `IDUtente` int(10) UNSIGNED NOT NULL,
   `IDCorpo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -83,7 +83,7 @@ CREATE TABLE `des` (
 --
 
 CREATE TABLE `desideri` (
-  `IDUtente` int(11) NOT NULL,
+  `IDUtente` int(10) UNSIGNED NOT NULL,
   `IDObbiettivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -92,9 +92,28 @@ CREATE TABLE `desideri` (
 --
 
 INSERT INTO `desideri` (`IDUtente`, `IDObbiettivo`) VALUES
-(2, 10),
-(2, 6),
-(2, 71);
+(1, 6),
+(1, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1);
 
 -- --------------------------------------------------------
 
@@ -122,8 +141,8 @@ CREATE TABLE `obbiettivi` (
 INSERT INTO `obbiettivi` (`ID`, `Nome Completo`, `LMin`, `LMax`, `F`, `FLMax`, `Rating`, `Marca`, `TAG`, `OSS`) VALUES
 (1, 'Laowa 4mm F2.8 Fisheye', 4.0, 4.0, 2.8, 0.0, '***', 'Laowa', 'Fisheye Circolare', 0),
 (2, 'Lensbaby 5.8mm F3.5', 5.8, 5.8, 3.5, 0.0, NULL, 'Lensbaby', 'Circular Fisheye', 0),
-(3, 'Meike 6-11mm F3.5', 6.0, 11.0, 3.5, 0.0, '*', 'Meike', '', 0),
-(4, 'Meike 6.5mm F2', 6.5, 6.5, 2.0, 0.0, '*', 'Meike', '', 0),
+(3, 'Meike 6-11mm F3.5', 6.0, 11.0, 3.5, 0.0, '*', 'Meike', NULL, 0),
+(4, 'Meike 6.5mm F2', 6.5, 6.5, 2.0, 0.0, '*', 'Meike', NULL, 0),
 (5, 'Yasuhara 7.3mm Madoka', 7.3, 7.3, 4.0, 0.0, '***', 'Yasuhara', 'Madoka', 0),
 (6, '7Artisans 7.5mm F2.8', 7.5, 7.5, 2.8, 0.0, '***', '7Artisans', '', 0),
 (7, 'Samyang 8mm F2.8 UMC Fisheye II', 8.0, 8.0, 2.8, 0.0, '***', 'Samyang', 'UMC Fisheye II', 0),
@@ -202,11 +221,23 @@ INSERT INTO `obbiettivi` (`ID`, `Nome Completo`, `LMin`, `LMax`, `F`, `FLMax`, `
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `poss`
 --
 
 CREATE TABLE `poss` (
-  `IDUtente` int(11) NOT NULL,
+  `IDUtente` int(10) UNSIGNED NOT NULL,
   `IDCorpo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -215,7 +246,8 @@ CREATE TABLE `poss` (
 --
 
 INSERT INTO `poss` (`IDUtente`, `IDCorpo`) VALUES
-(2, 4);
+(1, 4),
+(3, 7);
 
 -- --------------------------------------------------------
 
@@ -224,7 +256,7 @@ INSERT INTO `poss` (`IDUtente`, `IDCorpo`) VALUES
 --
 
 CREATE TABLE `possedimenti` (
-  `IDUtente` int(11) NOT NULL,
+  `IDUtente` int(10) UNSIGNED NOT NULL,
   `IDObbiettivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -233,34 +265,39 @@ CREATE TABLE `possedimenti` (
 --
 
 INSERT INTO `possedimenti` (`IDUtente`, `IDObbiettivo`) VALUES
-(2, 44),
-(2, 13),
-(2, 27),
-(2, 75);
+(1, 13),
+(1, 27),
+(1, 76),
+(1, 44),
+(3, 76);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `utenti`
+-- Struttura della tabella `users`
 --
 
-CREATE TABLE `utenti` (
-  `ID` int(11) NOT NULL,
-  `Nome` varchar(50) NOT NULL,
-  `Password` varchar(32) NOT NULL,
-  `permessi` int(1) NOT NULL,
-  `lingua` char(2) NOT NULL DEFAULT 'it'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `permessi` int(1) NOT NULL DEFAULT 0,
+  `lingua` char(2) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'it'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dump dei dati per la tabella `utenti`
+-- Dump dei dati per la tabella `users`
 --
 
-INSERT INTO `utenti` (`ID`, `Nome`, `Password`, `permessi`, `lingua`) VALUES
-(2, 'stefano.trerotola@outlook.it', 'fffe2600280051ec7d4a16f878a9676f', 1, 'it'),
-(3, 'schiappa', 'dab6e2e1d5d620b3dacee4e3ddd4af8e', 0, 'it'),
-(4, 'terzo', '16d47ae5f4fb01553d0036dd5e339b9a', 0, 'it'),
-(5, 'luca', '2333bdd9f6f9e823835e3815b33baed8', 0, 'it');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `permessi`, `lingua`) VALUES
+(1, 'Stefano', 'stefano.trerotola@outlook.it', NULL, '$2y$10$WoM7IhFyQjMhz2VzxcQr4u3wj5qVG2BBFjdWCEskcK98Eq6IUlgOq', 'qCQcwy5kttGPyu8OLva0CPt64ZbtSuxmUnvsog45q3OfSi5wNzZHKA8v3evL', '2020-06-23 08:16:22', '2020-06-29 13:12:22', 1, 'it'),;
+
+-- --------------------------------------------------------
 
 --
 -- Indici per le tabelle scaricate
@@ -273,6 +310,13 @@ ALTER TABLE `corpi`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indici per le tabelle `des`
+--
+ALTER TABLE `des`
+  ADD KEY `IDCorpo` (`IDCorpo`),
+  ADD KEY `IDUtente` (`IDUtente`);
+
+--
 -- Indici per le tabelle `desideri`
 --
 ALTER TABLE `desideri`
@@ -280,10 +324,29 @@ ALTER TABLE `desideri`
   ADD KEY `IDObbiettivo` (`IDObbiettivo`);
 
 --
+-- Indici per le tabelle `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `obbiettivi`
 --
 ALTER TABLE `obbiettivi`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Indici per le tabelle `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indici per le tabelle `poss`
+--
+ALTER TABLE `poss`
+  ADD KEY `IDUtente` (`IDUtente`),
+  ADD KEY `poss_ibfk_1` (`IDCorpo`);
 
 --
 -- Indici per le tabelle `possedimenti`
@@ -293,10 +356,11 @@ ALTER TABLE `possedimenti`
   ADD KEY `IDUtente` (`IDUtente`);
 
 --
--- Indici per le tabelle `utenti`
+-- Indici per le tabelle `users`
 --
-ALTER TABLE `utenti`
-  ADD PRIMARY KEY (`ID`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -309,34 +373,54 @@ ALTER TABLE `corpi`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT per la tabella `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT per la tabella `obbiettivi`
 --
 ALTER TABLE `obbiettivi`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
--- AUTO_INCREMENT per la tabella `utenti`
+-- AUTO_INCREMENT per la tabella `users`
 --
-ALTER TABLE `utenti`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
+-- Limiti per la tabella `des`
+--
+ALTER TABLE `des`
+  ADD CONSTRAINT `des_ibfk_1` FOREIGN KEY (`IDCorpo`) REFERENCES `corpi` (`ID`),
+  ADD CONSTRAINT `des_ibfk_2` FOREIGN KEY (`IDUtente`) REFERENCES `users` (`id`);
+
+--
 -- Limiti per la tabella `desideri`
 --
 ALTER TABLE `desideri`
-  ADD CONSTRAINT `desideri_ibfk_1` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`),
-  ADD CONSTRAINT `desideri_ibfk_2` FOREIGN KEY (`IDObbiettivo`) REFERENCES `obbiettivi` (`ID`);
+  ADD CONSTRAINT `desideri_ibfk_1` FOREIGN KEY (`IDObbiettivo`) REFERENCES `obbiettivi` (`ID`),
+  ADD CONSTRAINT `desideri_ibfk_2` FOREIGN KEY (`IDUtente`) REFERENCES `users` (`id`);
+
+--
+-- Limiti per la tabella `poss`
+--
+ALTER TABLE `poss`
+  ADD CONSTRAINT `poss_ibfk_1` FOREIGN KEY (`IDCorpo`) REFERENCES `corpi` (`ID`),
+  ADD CONSTRAINT `poss_ibfk_2` FOREIGN KEY (`IDUtente`) REFERENCES `users` (`id`);
 
 --
 -- Limiti per la tabella `possedimenti`
 --
 ALTER TABLE `possedimenti`
   ADD CONSTRAINT `possedimenti_ibfk_1` FOREIGN KEY (`IDObbiettivo`) REFERENCES `obbiettivi` (`ID`),
-  ADD CONSTRAINT `possedimenti_ibfk_2` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`);
+  ADD CONSTRAINT `possedimenti_ibfk_2` FOREIGN KEY (`IDUtente`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
