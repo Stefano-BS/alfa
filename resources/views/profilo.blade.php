@@ -89,8 +89,20 @@
                             </div>
                             <div class="col-md-0 col-xs-12"> </div>
                             <div class="col-md-6 col-xs-12">
+                                <a href="{{ route('creaObbiettivo') }}" class="btn btn-warning btn-large btn-block">
+                                <span class="glyphicon glyphicon-plus"></span> @lang('str.creaNuovoObbiettivo')</a>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
                                 <a href="{{ route('corpi', ['modifica' => "modifica"]) }}" class="btn btn-warning btn-large btn-block">
                                 <span class="glyphicon glyphicon-pencil"></span> @lang('str.modifica') @lang('str.corpi')</a>
+                            </div>
+                            <div class="col-md-0 col-xs-12"> </div>
+                            <div class="col-md-6 col-xs-12">
+                                <a href="{{ route('creaCorpo') }}" class="btn btn-warning btn-large btn-block">
+                                <span class="glyphicon glyphicon-plus"></span> @lang('str.creaNuovoCorpo')</a>
                             </div>
                         </div>
                         @endif

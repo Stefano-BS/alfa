@@ -21,12 +21,20 @@ Route::group(['middleware' => ['lingua']], function() {
     Route::get('/{utente}/profilo/aggiuntadesideriocorpo/{id}', ['as' => 'aggiuntaDesiderioCorpo','uses' => 'ProfiloController@aggiuntaDesiderioCorpo']);
     Route::get('/{utente}/profilo/aggiuntapossessocorpo/{id}', ['as' => 'aggiuntaPossessoCorpo','uses' => 'ProfiloController@aggiuntaPossessoCorpo']);
 
+    Route::get('obbiettivi/crea', ['as' => 'creaObbiettivo', 'uses' => 'ObbiettiviController@nuovo']);
+    Route::post('obbiettivi/crea', ['as' => 'creaObbiettivo', 'uses' => 'ObbiettiviController@crea']);
+    Route::get('/obbiettivi/{obbiettivo}/elimina', ['as' => 'rimozioneObbiettivo','uses' => 'ObbiettiviController@elimina']);
+    
     Route::get('/obbiettivi/{modifica?}', ['as' => 'obbiettivi', 'uses' => 'ObbiettiviController@tabella']);
     Route::post('/obbiettivi/{modifica?}', ['as' => 'obbiettivi', 'uses' => 'ObbiettiviController@tabella']);
-
+    
     Route::get('obbiettivi/{obbiettivo}/{modifica}', ['as' => 'modificaObbiettivo', 'uses' => 'ObbiettiviController@pagina']);
     Route::post('obbiettivi/{obbiettivo}/{modifica}', ['as' => 'modificaObbiettivo', 'uses' => 'ObbiettiviController@eseguiModifica']);
 
+    Route::get('corpi/crea', ['as' => 'creaCorpo', 'uses' => 'CorpiController@nuovo']);
+    Route::post('corpi/crea', ['as' => 'creaCorpo', 'uses' => 'CorpiController@crea']);
+    Route::get('/corpi/{corpo}/elimina', ['as' => 'rimozioneCorpo','uses' => 'CorpiController@elimina']);
+    
     Route::get('corpi/{modifica?}', ['as' => 'corpi', 'uses' => 'CorpiController@tabella']);
     Route::post('corpi/{modifica?}', ['as' => 'corpi', 'uses' => 'CorpiController@tabella']);
 

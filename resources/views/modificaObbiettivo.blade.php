@@ -1,6 +1,10 @@
 @extends('layout.master')
 
+@if ($modifica == "crea")
+@section('titolo',trans('str.creaNuovoObbiettivo'))
+@else
 @section('titolo',$obbiettivo->{'Nome Completo'})
+@endif
 
 @section('barraAccesso')
 <?php
@@ -17,11 +21,15 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1 col-xs-12">
             <header>
+                @if ($modifica == "crea")
+                <h1 style="margin-top: 1em; text-align: center">@lang('str.creaNuovoObbiettivo')</h1>
+                @else
                 <h1 style="margin-top: 1em; text-align: center">{{ $obbiettivo->{'Nome Completo'} }}</h1>
+                @endif
             </header>
         </div>
     </div>
-@if (auth()->check() && auth()->user()->permessi && $modifica == "modifica")
+@if (auth()->check() && auth()->user()->permessi && ($modifica == "modifica" || $modifica == "crea"))
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading text-center">
@@ -37,6 +45,7 @@
                                 <h5><span class='glyphicon glyphicon-upload'></span>  @lang('str.caricaFile')  </h5>
                             </label>
                         </div>
+                        @if ($modifica == "modifica")
                         <div class="form-group row"><div class="col-sm-8">
                             <input type="hidden" name="id" id="id" class="form-control" value="{{$obbiettivo->ID}}"></div></div>
                         <div class="form-group row"><label for="nome" class="col-sm-4 col-form-label">@lang('str.nomeCompleto'): </label><div class="col-sm-8">
@@ -57,7 +66,29 @@
                             <input type="text" maxlength="20" name="tag" id="tag" class="form-control" value="{{$obbiettivo->TAG}}"></div></div>
                         <div class="form-group row"><label for="oss" class="col-sm-4 col-form-label">@lang('str.stabilizzazione')</label><div class="col-sm-8">
                             <input type="checkbox" name="oss" id="oss"@if($obbiettivo->OSS !==0)checked @endif></div></div>
-                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"
+                        <a data-toggle="modal" data-target="#confermaEliminazione" class="form-control btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</a><br><br>
+                        @else
+                        <div class="form-group row"><label for="nome" class="col-sm-4 col-form-label">@lang('str.nomeCompleto'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="50" name="nome" id="nome" class="form-control"></div></div>
+                        <div class="form-group row"><label for="marca" class="col-sm-4 col-form-label">@lang('str.marca'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="10" name="marca" id="marca" class="form-control"></div></div>
+                        <div class="form-group row"><label for="rating" class="col-sm-4 col-form-label">@lang('str.rating'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="5" name="rating" id="rating" class="form-control"></div></div>
+                        <div class="form-group row"><label for="lmin" class="col-sm-4 col-form-label">@lang('str.lmin'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="12" name="lmin" id="lmin" class="form-control"></div></div>
+                        <div class="form-group row"><label for="lmax" class="col-sm-4 col-form-label">@lang('str.lmax'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="12" name="lmax" id="lmax" class="form-control"></div></div>
+                        <div class="form-group row"><label for="f" class="col-sm-4 col-form-label">@lang('str.maxf'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="12" name="f" id="f" class="form-control"></div></div>
+                        <div class="form-group row"><label for="flmax" class="col-sm-4 col-form-label">@lang('str.apertura') @lang('str.amaxf'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="12" name="flmax" id="flmax" class="form-control"></div></div>
+                        <div class="form-group row"><label for="tag" class="col-sm-4 col-form-label">@lang('str.elencoTAG'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="20" name="tag" id="tag" class="form-control"></div></div>
+                        <div class="form-group row"><label for="oss" class="col-sm-4 col-form-label">@lang('str.stabilizzazione')</label><div class="col-sm-8">
+                            <input type="checkbox" name="oss" id="oss"></div></div>
+                        @endif
+                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.conferma')"
                             onclick="event.preventDefault(); validazione();"><br>
                     </form>
                     <p id="messaggio-errore"></p>
@@ -136,8 +167,31 @@
             <img src ='{{route('/')}}/img/{{$obbiettivo->ID}}.png' alt="Immagine" class='img-responsive'>
         </div>
     </div>
-@endif 
+@endif
 </div>
+@if (auth()->check() && auth()->user()->permessi && $modifica == "modifica")
+<div id="confermaEliminazione" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="nomeArticolo">{{ $obbiettivo->{'Nome Completo'} }}</h4>
+            </div>
+            <div class="modal-body text-center">
+                <h4 class="modal-title">@lang('str.confermaEliminazione')</h4>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                <div class="row">
+                    <button type="button" class="btn btn-danger col-sm-5 col-xs-12" data-dismiss="modal" id='confermaFinale'
+                    onclick="window.location.href = '{{ route('rimozioneObbiettivo', ['obbiettivo' => $obbiettivo->ID]) }}'">@lang('str.rimuovi')</button>
+                    <div class="col-md-0 col-xs-12"> </div>
+                    <button type="button" class="btn btn-default col-sm-5 col-xs-12 pull-right" data-dismiss="modal">@lang('str.annulla')</button>
+                </div></div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 <script>
 // VALIDAZIONE MODIFICA
 
@@ -187,7 +241,11 @@ function validazione() {
     
     if (!errore) {
         var r = new XMLHttpRequest();
-        r.open("GET", '{{route("obbiettivoUnivoco")}}/' + $("#id")[0].value + '/' + $("#nome")[0].value, true);
+        if (<?php if ($modifica == "crea") {echo "true";} else {echo "false";} ?>) {
+            r.open("GET", '{{route("obbiettivoUnivoco")}}/10000/' + $("#nome")[0].value, true);
+        } else {
+            r.open("GET", '{{route("obbiettivoUnivoco")}}/' + $("#id")[0].value + '/' + $("#nome")[0].value, true);
+        }
         r.setRequestHeader("connection", "close");
         r.onreadystatechange = function () {
             if (r.readyState == 4 && r.status == 200) {

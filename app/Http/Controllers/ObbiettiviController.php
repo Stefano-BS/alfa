@@ -65,6 +65,14 @@ class ObbiettiviController extends Controller {
                 ->with('giaDes',$giaDes)->with('giaPos',$giaPos);
     }
     
+    public function nuovo() {
+        if (auth()->check() && auth()->user()->permessi) {
+            return view('modificaObbiettivo')->with('modifica', "crea");
+        } else {
+            return Redirect::back();
+        }
+    }
+    
     public function eseguiModifica(Request $request) {
         if(auth()->check() && auth()->user()->permessi) {
             $db = new DB();
@@ -77,6 +85,34 @@ class ObbiettiviController extends Controller {
                 $request->immagine->move(public_path('img'), $request->input("id") . ".png");
             }
             return Redirect::to(route('obbiettivi', ["modifica" => "modifica"]));
+        } else {
+            return Redirect::to(route('home'));
+        }
+    }
+    
+    public function crea(Request $request) {
+        if(auth()->check() && auth()->user()->permessi) {
+            $db = new DB();
+            $db->nuovoObbiettivo($request->input("nome"), $request->input("lmin"),
+                $request->input("lmax"), $request->input("f"), $request->input("flmax"), $request->input("rating"),
+                $request->input("marca"), $request->input("tag"), $request->input("oss"));
+            
+            if ($request->immagine) {
+                $request->validate(['immagine' => 'required|image|mimes:png|max:2048']);
+                $request->immagine->move(public_path('img'), $request->input("id") . ".png");
+            }
+            return Redirect::to(route('obbiettivi'));
+        } else {
+            return Redirect::to(route('home'));
+        }
+    }
+    
+    public function elimina($obbiettivo) {
+        if(auth()->check() && auth()->user()->permessi) {
+            if (!empty(Obbiettivo::find($obbiettivo))){
+                Obbiettivo::destroy($obbiettivo);
+            }
+            return Redirect::to(route('obbiettivi'));
         } else {
             return Redirect::to(route('home'));
         }

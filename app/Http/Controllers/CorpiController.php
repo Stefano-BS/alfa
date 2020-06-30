@@ -64,6 +64,49 @@ class CorpiController extends Controller {
                 ->with('giaDes',$giaDes)->with('giaPos',$giaPos);
     }
     
+    
+    public function nuovo() {
+        if (auth()->check() && auth()->user()->permessi) {
+            return view('modificaCorpo')->with('modifica', "crea");
+        } else {
+            return Redirect::back();
+        }
+    }
+    
+    
+    public function crea(Request $request) {
+        if(auth()->check() && auth()->user()->permessi) {
+            $db = new DB();
+            $db->nuovoCorpo(['Nome' => $request->input('nome'),
+                'Data' => $request->input('data'),'MSRP' => $request->input('msrp'),'Materiale' => $request->input('materiale'),
+                'Risoluzione' => (float)$request->input('risoluzione'),'Formato' => $request->input('formato'),
+                'MaxISO' => $request->input('maxiso'),'MaxISOExt' => $request->input('maxisoext'),
+                'OSS' => (bool)$request->input('oss'),'AF' => $request->input('af'),'Schermo' => $request->input('schermo'),
+                'Mirino' => $request->input('mirino'),'Touch' => (bool)$request->input('touch'),'MaxSS' => $request->input('maxss'),
+                'Flash' => (bool)$request->input('flash'),'FPS' => $request->input('fps'),'QHD' => $request->input('qhd'),
+                'FHD' => $request->input('fhd'),'CIPA' => $request->input('cipa'),'Peso' => $request->input('peso')]);
+            
+            if ($request->immagine) {
+                $request->validate(['immagine' => 'required|image|mimes:png|max:2048']);
+                $request->immagine->move(public_path('img'), $request->input("nome") . ".png");
+            }
+            return Redirect::to(route('corpi'));
+        } else {
+            return Redirect::to(route('home'));
+        }
+    }
+    
+    public function elimina($corpo) {
+        if(auth()->check() && auth()->user()->permessi) {
+            if (!empty(Corpo::find($corpo))){
+                Corpo::destroy($corpo);
+            }
+            return Redirect::to(route('corpi'));
+        } else {
+            return Redirect::to(route('home'));
+        }
+    }
+    
     public function eseguiModifica(Request $request) {
         if(auth()->check() && auth()->user()->permessi) {
             $db = new DB();

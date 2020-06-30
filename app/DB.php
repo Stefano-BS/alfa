@@ -37,6 +37,10 @@ class DB {
         Obbiettivo::find($id)->update(['Nome Completo' => $nome,'LMin'=> (float)$lmin,'LMax' => (float)$lmax,'F'=> (float)$f,'FLMax' => (float)$flmax,'Rating' => $rating,'Marca'=> $marca,'TAG' => $tag,'OSS' => (bool)$oss]);
     }
     
+    public function nuovoObbiettivo($nome, $lmin, $lmax, $f, $flmax, $rating, $marca, $tag, $oss) {
+        (new Obbiettivo(['Nome Completo' => $nome,'LMin'=> (float)$lmin,'LMax' => (float)$lmax,'F'=> (float)$f,'FLMax' => (float)$flmax,'Rating' => $rating,'Marca'=> $marca,'TAG' => $tag,'OSS' => (bool)$oss]))->save();
+    }
+    
     
     //  CORPI
     public function elencoCorpi() {return Corpo::all();}
@@ -45,6 +49,10 @@ class DB {
     
     public function modificaCorpo($id, $listaAttributi) {
         Corpo::find($id)->update($listaAttributi);
+    }
+    
+    public function nuovoCorpo($listaAttributi) {
+        (new Corpo($listaAttributi))->save();
     }
     
     

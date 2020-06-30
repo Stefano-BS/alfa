@@ -1,6 +1,10 @@
 @extends('layout.master')
 
+@if ($modifica == "crea")
+@section('titolo',trans('str.creaNuovoCorpo'))
+@else
 @section('titolo',$corpo->Nome)
+@endif
 
 @section('barraAccesso')
 <?php
@@ -17,11 +21,15 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1 col-xs-12">
             <header>
+                @if ($modifica == "crea")
+                <h1 style="margin-top: 1em; text-align: center">@lang('str.creaNuovoCorpo')</h1>
+                @else
                 <h1 style="margin-top: 1em; text-align: center">{{$corpo->Nome}}</h1>
+                @endif
             </header>
         </div>
     </div>
-@if (auth()->check() && auth()->user()->permessi && $modifica == "modifica")
+@if (auth()->check() && auth()->user()->permessi && ($modifica == "modifica" || $modifica == "crea"))
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading text-center">
@@ -37,6 +45,7 @@
                                 <h5><span class='glyphicon glyphicon-upload'></span>  @lang('str.caricaFile')  </h5>
                             </label>
                         </div>
+                        @if ($modifica == "modifica")
                         <div class="form-group row"><div class="col-sm-8">
                             <input type="hidden" name="id" id="id" class="form-control" value="{{$corpo->ID}}"></div></div>
                         <div class="form-group row"><label for="nome" class="col-sm-4 col-form-label">@lang('str.nome'): </label><div class="col-sm-8">
@@ -79,7 +88,51 @@
                             <input type="text" maxlength="6" name="cipa" id="cipa" class="form-control" value="{{$corpo->CIPA}}"></div></div>
                         <div class="form-group row"><label for="peso" class="col-sm-4 col-form-label">@lang('str.peso'): </label><div class="col-sm-8">
                             <input type="text" maxlength="6" name="peso" id="peso" class="form-control" value="{{$corpo->Peso}}"></div></div>
-                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.eseguiModifica')"
+                        <a data-toggle="modal" data-target="#confermaEliminazione" class="form-control btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>  @lang('str.rimuovi')</a><br><br>
+                        @else
+                        <div class="form-group row"><label for="nome" class="col-sm-4 col-form-label">@lang('str.nome'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="5" name="nome" id="nome" class="form-control"></div></div>
+                        <div class="form-group row"><label for="data" class="col-sm-4 col-form-label">@lang('str.data'): </label><div class="col-sm-8">
+                            <input type="date" name="data" id="data" class="form-control" value="{{date("Y-m-d")}}"></div></div>
+                        <div class="form-group row"><label for="msrp" class="col-sm-4 col-form-label">MSRP: </label><div class="col-sm-8">
+                            <input type="text" maxlength="11" name="msrp" id="msrp" class="form-control"></div></div>
+                        <div class="form-group row"><label for="materiale" class="col-sm-4 col-form-label"> @lang('str.materiale'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="15" name="materiale" id="materiale" class="form-control"></div></div>
+                        <div class="form-group row"><label for="risoluzione" class="col-sm-4 col-form-label">@lang('str.risoluzione'): </label><div class="col-sm-8">
+                            <input type="text" name="risoluzione" id="risoluzione" class="form-control"></div></div>
+                        <div class="form-group row"><label for="formato" class="col-sm-4 col-form-label">@lang('str.formato'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="10" name="formato" id="formato" class="form-control"></div></div>
+                        <div class="form-group row"><label for="maxiso" class="col-sm-4 col-form-label">@lang('str.maxISO'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="11" name="maxiso" id="maxiso" class="form-control"></div></div>
+                        <div class="form-group row"><label for="maxisoext" class="col-sm-4 col-form-label">@lang('str.ISOext'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="11" name="maxisoext" id="maxisoext" class="form-control"></div></div>
+                        <div class="form-group row"><label for="oss" class="col-sm-4 col-form-label">@lang('str.stabilizzazione')</label><div class="col-sm-8">
+                            <input type="checkbox" name="oss" id="oss"></div></div>
+                        <div class="form-group row"><label for="af" class="col-sm-4 col-form-label">AF: </label><div class="col-sm-8">
+                            <input type="text" maxlength="11" name="af" id="af" class="form-control"></div></div>
+                        <div class="form-group row"><label for="schermo" class="col-sm-4 col-form-label">@lang('str.schermo'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="11" name="schermo" id="schermo" class="form-control"></div></div>
+                        <div class="form-group row"><label for="mirino" class="col-sm-4 col-form-label">@lang('str.mirino'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="11" name="mirino" id="mirino" class="form-control"></div></div>
+                        <div class="form-group row"><label for="touch" class="col-sm-4 col-form-label">Touch</label><div class="col-sm-8">
+                            <input type="checkbox" name="touch" id="touch"></div></div>
+                        <div class="form-group row"><label for="maxss" class="col-sm-4 col-form-label">@lang('str.massima') SS: </label><div class="col-sm-8">
+                            <input type="text" maxlength="11" name="maxss" id="maxss" class="form-control"></div></div>
+                        <div class="form-group row"><label for="flash" class="col-sm-4 col-form-label">Flash</label><div class="col-sm-8">
+                            <input type="checkbox" name="flash" id="flash"></div></div>
+                        <div class="form-group row"><label for="fps" class="col-sm-4 col-form-label">FPS: </label><div class="col-sm-8">
+                            <input type="text" maxlength="4" name="fps" id="fps" class="form-control"></div></div>
+                        <div class="form-group row"><label for="qhd" class="col-sm-4 col-form-label">4K: </label><div class="col-sm-8">
+                            <input type="text" maxlength="4" name="qhd" id="qhd" class="form-control"></div></div>
+                        <div class="form-group row"><label for="fhd" class="col-sm-4 col-form-label">FHD: </label><div class="col-sm-8">
+                            <input type="text" maxlength="4" name="fhd" id="fhd" class="form-control"></div></div>
+                        <div class="form-group row"><label for="cipa" class="col-sm-4 col-form-label">CIPA: </label><div class="col-sm-8">
+                            <input type="text" maxlength="6" name="cipa" id="cipa" class="form-control"></div></div>
+                        <div class="form-group row"><label for="peso" class="col-sm-4 col-form-label">@lang('str.peso'): </label><div class="col-sm-8">
+                            <input type="text" maxlength="6" name="peso" id="peso" class="form-control"></div></div>
+                        @endif
+                        <input type="submit" name="mod-obbiettivo" class="form-control btn btn-warning" value="@lang('str.conferma')"
                             onclick="event.preventDefault(); validazione();"><br>
                     </form>
                     <p id="messaggio-errore"></p>
@@ -159,6 +212,29 @@
     </div>
 @endif 
 </div>
+@if (auth()->check() && auth()->user()->permessi && $modifica == "modifica")
+<div id="confermaEliminazione" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="nomeArticolo">{{ $corpo->Nome }}</h4>
+            </div>
+            <div class="modal-body text-center">
+                <h4 class="modal-title">@lang('str.confermaEliminazione')</h4>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                <div class="row">
+                    <button type="button" class="btn btn-danger col-sm-5 col-xs-12" data-dismiss="modal" id='confermaFinale'
+                    onclick="window.location.href = '{{ route('rimozioneCorpo', ['corpo' => $corpo->ID]) }}'">@lang('str.rimuovi')</button>
+                    <div class="col-md-0 col-xs-12"> </div>
+                    <button type="button" class="btn btn-default col-sm-5 col-xs-12 pull-right" data-dismiss="modal">@lang('str.annulla')</button>
+                </div></div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 <script>
 // VALIDAZIONE MODIFICA
 
@@ -191,7 +267,11 @@ function validazione() {
     
     if (!errore) {
         var r = new XMLHttpRequest();
-        r.open("GET", '{{route("corpoUnivoco")}}/' + $("#id")[0].value + '/' + $("#nome")[0].value, true);
+        if (<?php if ($modifica == "crea") {echo "true";} else {echo "false";} ?>) {
+            r.open("GET", '{{route("corpoUnivoco")}}/10000/' + $("#nome")[0].value, true);
+        } else {
+            r.open("GET", '{{route("corpoUnivoco")}}/' + $("#id")[0].value + '/' + $("#nome")[0].value, true);
+        }
         r.setRequestHeader("connection", "close");
         r.onreadystatechange = function () {
             if (r.readyState == 4 && r.status == 200) {

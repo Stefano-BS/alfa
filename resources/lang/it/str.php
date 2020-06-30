@@ -18,6 +18,8 @@ return [
     'schedaTecnica' => 'Scheda Tecnica',
     'azioni' => 'Azioni',
     'acquista' => 'Acquista',
+    'creaNuovoObbiettivo' => 'Crea nuovo Obbiettivo',
+    'creaNuovoCorpo' => 'Crea nuovo Corpo',
     
     'marca' => 'Marca',
     'nome' => 'Nome',

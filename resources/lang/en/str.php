@@ -18,6 +18,8 @@ return [
     'schedaTecnica' => 'Technical Sheet',
     'azioni' => 'Actions',
     'acquista' => 'Buy',
+    'creaNuovoObbiettivo' => 'Create new Lens',
+    'creaNuovoCorpo' => 'Create new Body',
     
     'marca' => 'Brand',
     'nome' => 'Name',
