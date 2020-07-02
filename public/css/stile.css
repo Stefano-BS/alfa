@@ -1,3 +1,7 @@
+::selection {
+  background: #ffa350;
+}
+
 .navbar-brand {
     display: inline-block;
     text-indent: -9999px;
